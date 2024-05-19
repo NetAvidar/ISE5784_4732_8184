@@ -1,0 +1,64 @@
+package primitives;
+
+public class Vector extends Point {
+
+    public Vector(double x, double y, double z) {
+       this(new Double3(x,y,z));
+    }
+
+    Vector(Double3 xyz) {
+        super(xyz);
+        if (xyz.equals(Double3.ZERO))
+            throw new IllegalArgumentException("creating Vecor(0,0,0) is not valid");
+    }
+
+    public double length() {
+        return Math.sqrt(lengthSquared());
+    }
+
+    public double lengthSquared() {
+        return xyz.d1 * xyz.d1 +
+                xyz.d2 * xyz.d2 +
+                xyz.d3 * xyz.d3;
+    }
+
+    public Vector add(Vector other) {
+        return new Vector(xyz.add(other.xyz));
+    }
+
+    public Vector scale(double scalar) {
+        return new Vector(xyz.scale(scalar));
+    }
+
+    public double dotProduct(Vector other) {
+        return xyz.d1 * other.xyz.d1 +
+                xyz.d2 * other.xyz.d2 +
+                xyz.d3 * other.xyz.d3;
+    }
+
+    public Vector crossProduct(Vector other) {
+        double x = xyz.d2 * other.xyz.d3 - xyz.d3 * other.xyz.d2;
+        double y = xyz.d3 * other.xyz.d1 - xyz.d1 * other.xyz.d3;
+        double z = xyz.d1 * other.xyz.d2 - xyz.d2 * other.xyz.d1;
+        return new Vector(x, y, z);
+    }
+
+    public Vector normalize() {
+        double length = length();
+        if (length == 0) {
+            throw new ArithmeticException("Cannot normalize a zero vector.");
+        }
+        return scale(1 / length);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector{" + "xyz=" + xyz + '}';
+    }
+
+}
