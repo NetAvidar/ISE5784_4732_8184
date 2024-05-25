@@ -26,8 +26,19 @@ public class Vector extends Point {
         return new Vector(xyz.add(other.xyz));
     }
 
+    @Override
+    public Point add(Double3 vector) {
+        return super.add(vector);
+    }
+
     public Vector scale(double scalar) {
-        return new Vector(xyz.scale(scalar));
+        if (isZero(scalar))
+            throw new IllegalArgumentException("cant scale by zero");
+        return new Vector(xyz.scale(scalar)); //need to check if the scale is zero - throw  Illegal exeption
+    }
+
+    private boolean isZero(double scalar) { //need to check
+        return (scalar ==0);
     }
 
     public double dotProduct(Vector other) {
