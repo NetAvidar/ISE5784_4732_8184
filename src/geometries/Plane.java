@@ -11,9 +11,12 @@ public class Plane implements Geometry {
         this.normal = normal.normalize();
     }
 
-    public Plane(Point v0, Point v1, Point v2) {
-        q = v0;
-        normal = null;
+    public Plane(Point p0, Point p1, Point p2) {
+        q = p0;
+        Vector v1 = p1.subtract(p0);
+        Vector v2 = p2.subtract(p0);
+
+        normal = v1.crossProduct(v2).normalize();
     }
 
     public Vector getNormal() {
