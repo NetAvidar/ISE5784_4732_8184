@@ -4,9 +4,12 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Unit tests for primitives.Point class
+ * @author Hila & Neta
+ */
 class PlaneTests {
-
+    /*** Test method for{} .*/
     private final double DELTA = 0.000001;
 
     @Test
@@ -18,6 +21,11 @@ class PlaneTests {
                         new Point(  2, 2, 2),
                         new Point(3, 3, 3),
                         "Failed constructing a correct polygon"));
+
+    }
+
+    public void testGetNormal() {
+
 
     }
 
