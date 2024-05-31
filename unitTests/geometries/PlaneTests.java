@@ -2,6 +2,7 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 /**
@@ -26,7 +27,20 @@ class PlaneTests {
 
     public void testGetNormal() {
 
+        // TC01: There is a simple single test here - using a quad
+        Plane p = new Plane
+                (new Point(1, 0, 1), new Point(  2, 2, 2), new Point(3, 3, 3),
+                        "Failed constructing a correct polygon");
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> p.getNormal(new Point(0, 0, 1)), "");
+        // generate the test result
 
+        // =============== Boundary Values Tests =======================
+
+
+        Vector result = p.getNormal(new Point(0, 0, 1));
+        // ensure |result| = 1
+        assertEquals(1, result.length(), DELTA, "Polygon's normal is not a unit vector");
+        // ensure the result is orthogonal to all the edge
     }
-
 }

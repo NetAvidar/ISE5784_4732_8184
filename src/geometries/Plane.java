@@ -2,9 +2,13 @@ package geometries;
 
 import primitives.*;
 
+
+
 public class Plane implements Geometry {
     private final Point q;
     private  final Vector normal;
+
+    private final double DELTA = 0.000001;
 
     public Plane(Point q, Vector normal) {
         this.q = q;
@@ -27,10 +31,6 @@ public class Plane implements Geometry {
         if (normal.length() == 0)
             throw new IllegalArgumentException("The points are collinear");
 
-
-        if (!( normal.scale((double) 1/len).length()==1.0)) {
-            throw new IllegalArgumentException("normal has to be equale 1");
-        }
     }
 
     public Vector getNormal() {

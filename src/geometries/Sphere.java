@@ -5,7 +5,7 @@ public class Sphere extends RadialGeometry  {
 
     private final Point center;
 
-    public Sphere(double radius, Point center) {
+    public Sphere(double radius, Point center, String failedConstructingACorrectPolygon) {
         super(radius);
         this.center = center;
     }
