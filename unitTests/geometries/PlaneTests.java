@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class PlaneTest {
 
-
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: Correct concave quadrangular with vertices in correct order
