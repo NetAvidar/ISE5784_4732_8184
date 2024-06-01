@@ -8,8 +8,8 @@ public class Vector extends Point {
 
     Vector(Double3 xyz) {
         super(xyz);
-        if (xyz.equals(Double3.ZERO))
-            throw new IllegalArgumentException("creating Vecor(0,0,0) is not valid");
+     //   if (xyz.equals(Double3.ZERO))
+     //       throw new IllegalArgumentException("creating Vecor(0,0,0) is not valid");
     }
 
     public double length() {
@@ -32,8 +32,6 @@ public class Vector extends Point {
     }
 
     public Vector scale(double scalar) {
-        if (isZero(scalar))
-            throw new IllegalArgumentException("cant scale by zero");
         return new Vector(xyz.scale(scalar)); //need to check if the scale is zero - throw  Illegal exeption
     }
 

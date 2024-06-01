@@ -30,6 +30,12 @@ class TriangleTests {
     }
 
 
+    public void testFindIntsersections(){
+        // ============ Equivalence Partitions Tests ==============
+
+        // =============== Boundary Values Tests =======================
+
+    }
 
 
 }

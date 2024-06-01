@@ -35,6 +35,8 @@ class TubeTests {
 
     // =============== Boundary Values Tests ==================
 
+        Tube l =  new Tube(3, new Ray(new Point(0,0,0), new Vector(0,0,1)));
+        assertDoesNotThrow(() -> l.getNormal(new Point(0, 1, 0)), "");
 
     }
 

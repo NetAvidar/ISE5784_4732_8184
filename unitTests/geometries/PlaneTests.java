@@ -2,9 +2,12 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 /**
  * Unit tests for primitives.Point class
  * @author Hila & Neta
@@ -12,6 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlaneTests {
     /*** Test method for{} .*/
     private final double DELTA = 0.000001;
+
+    @Test
+   public void testFindIntsersections(){
+        // ============ Equivalence Partitions Tests ==============
+
+        // =============== Boundary Values Tests =======================
+
+    }
 
     @Test
     public void testConstructor() {
