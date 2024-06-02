@@ -70,7 +70,9 @@ class SphereTests {
         // TC03: Ray starts inside the sphere (1 point)
 
         // TC04: Ray starts after the sphere (0 points)
-       // ...
+        final var result2 = sphere.findIntersections(new Ray(new Point(1.5,0,0), v310))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p01))).toList();
+         assertEquals(0, result2.size(), "Wrong number of points");
 
         // =============== Boundary Values Tests ==================
 
