@@ -10,4 +10,11 @@ public class Ray {
         this.direction = direction;
     }
 
+    public Point getHead() {
+        return head;
+    }
+
+    public Vector getDirection() {
+        return direction;
+    }
 }
