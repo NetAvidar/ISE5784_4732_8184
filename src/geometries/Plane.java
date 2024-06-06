@@ -16,7 +16,7 @@ public class Plane implements Geometry {
         this.normal = normal.normalize();
     }
 
-    public Plane(Point p0, Point p1, Point p2, String failedConstructingACorrectPolygon) {
+    public Plane(Point p0, Point p1, Point p2) {
         if (p0==null || p1==null || p2==null)
             throw new IllegalArgumentException("A plane cannot have null points");
 
@@ -44,8 +44,32 @@ public class Plane implements Geometry {
     }
 
 
+
     @Override
     public List<Point> findIntersections(Ray ray){
-        return null;
+
+        double t;
+        Point p = new Point (0,0,0);
+        Point p0=ray.getHead();
+        Vector v=ray.getDirection();
+        Vector n = this.getNormal();
+        Point q = this.getQ();
+
+        Vector a =q.subtract(p0);
+        t = (n.dotProduct(a))/(n.dotProduct(v));
+        if(t>0){
+            p=p0.add(v.scale(t));
+        }
+        else{
+            throw new IllegalArgumentException("t has to be bigger then zero");
+        }
+        final var l = List.of(p);
+        return  l;
     }
+
+    public Point getQ() {
+        return q;
+    }
+
 }
+

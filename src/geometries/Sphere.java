@@ -13,7 +13,7 @@ public class Sphere extends RadialGeometry  {
     }
     @Override
     public List<Point> findIntersections(Ray ray){
-        return null;
+        return List.of();
     }
     @Override
     public Vector getNormal(Point point) {

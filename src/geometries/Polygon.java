@@ -5,6 +5,7 @@ import java.util.List;
 import static primitives.Util.isZero;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /**
@@ -58,7 +59,7 @@ public class Polygon implements Geometry {
         // Generate the plane according to the first three vertices and associate the
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
-        plane = new Plane(vertices[0], vertices[1], vertices[2], "Failed constructing a correct polygon");
+        plane = new Plane(vertices[0], vertices[1], vertices[2]);
         if (size == 3) return; // no need for more tests for a Triangle
 
         Vector n = plane.getNormal();
@@ -92,4 +93,8 @@ public class Polygon implements Geometry {
         return plane.getNormal();
     }
 
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return List.of();
+    }
 }
