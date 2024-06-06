@@ -20,7 +20,7 @@ class PlaneTests {
     private final double DELTA = 0.000001;
 
     @Test
-   public void testFindIntsersections(){
+    public void testFindIntsersections(){
         // ============ Equivalence Partitions Tests ==============
 
         Plane plane = new Plane (new Point(1,1,1),new Vector(3,5,7));
@@ -116,8 +116,8 @@ class PlaneTests {
         assertDoesNotThrow(() -> new Plane
                 (new Point(1, 0, 1),
                         new Point(  2, 2, 2),
-                        new Point(3, 3, 3),
-                        "Failed constructing a correct polygon"));
+                        new Point(3, 3, 3)),
+                        "Failed constructing a correct polygon");
 
     }
 
@@ -125,8 +125,7 @@ class PlaneTests {
 
         // TC01: There is a simple single test here - using a quad
         Plane p = new Plane
-                (new Point(1, 0, 1), new Point(  2, 2, 2), new Point(3, 3, 3),
-                        "Failed constructing a correct polygon");
+                (new Point(1, 0, 1), new Point(  2, 2, 2), new Point(3, 3, 3));
         // ensure there are no exceptions
         assertDoesNotThrow(() -> p.getNormal(new Point(0, 0, 1)), "");
         // generate the test result

@@ -47,6 +47,7 @@ public class Plane implements Geometry {
         return q;
     }
 
+
     @Override
     public List<Point> findIntersections(Ray ray){
 
@@ -68,4 +69,10 @@ public class Plane implements Geometry {
         final var l = List.of(p);
         return  l;
     }
+
+    public Point getQ() {
+        return q;
+    }
+
 }
+
