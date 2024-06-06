@@ -68,6 +68,14 @@ class SphereTests {
         assertEquals(exp, result1, "Ray crosses sphere");
 
         // TC03: Ray starts inside the sphere (1 point)
+        Vector vv=new Vector(0,0,1);
+        Point pp = new Point(1,0,0.5);
+        final var ex3 = List.of(new Point(1,0,1));
+
+        final var result3 = sphere.findIntersections(new Ray(pp,vv))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(pp))).toList();
+        assertEquals(1, result3.size(), "Wrong number of points");
+        assertEquals(ex3, result3, "Ray crosses sphere");
 
         // TC04: Ray starts after the sphere (0 points)
         final var result2 = sphere.findIntersections(new Ray(new Point(1.5,0,0), v310))

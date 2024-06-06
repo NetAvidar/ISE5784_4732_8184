@@ -6,11 +6,18 @@ public class Vector extends Point {
        this(new Double3(x,y,z));
     }
 
-    Vector(Double3 xyz) {
+    public Vector(Double3 xyz) {
         super(xyz);
      //   if (xyz.equals(Double3.ZERO))
      //       throw new IllegalArgumentException("creating Vecor(0,0,0) is not valid");
     }
+
+    public Vector(Point p) {
+        Double3 xyz = p.getXyz();
+        Vector(xyz);
+    }
+
+
 
     public double length() {
         return Math.sqrt(lengthSquared());
@@ -69,5 +76,6 @@ public class Vector extends Point {
     public String toString() {
         return "Vector{" + "xyz=" + xyz + '}';
     }
+
 
 }

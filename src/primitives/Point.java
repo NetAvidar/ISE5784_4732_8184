@@ -6,6 +6,11 @@ public class Point {
     public static final Point ZERO = new Point(0d,0d,0d);  //d main double
     protected Double3 xyz;
 
+    public Double3 getXyz() {
+        return xyz;
+    }
+
+
     public Point(double x, double y, double z) {
         this.xyz = new Double3(x, y, z); //DRY
     }
