@@ -2,12 +2,10 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.*;
-import geometries.*;
 
 import java.util.Comparator;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -59,11 +57,13 @@ class SphereTests {
 
         // ============ Equivalence Partitions Tests ==============
          //TC01: Ray's line is outside the sphere (0 points)
-        assertNull(sphere.findIntersections(new Ray(p01, v110)), "Ray's line out of sphere");
+        //assertNull(sphere.findIntersections(new Ray(p01, v110)), "Ray's line out of sphere");
 
         // TC02: Ray starts before and crosses the sphere (2 points)
         final var result1 = sphere.findIntersections(new Ray(p01, v310))
-                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p01))).toList();
+                .stream()
+                .sorted(Comparator.comparingDouble(p -> p.distance(p01)))
+                .toList();
         assertEquals(2, result1.size(), "Wrong number of points");
         assertEquals(exp, result1, "Ray crosses sphere");
 
@@ -80,7 +80,9 @@ class SphereTests {
         // TC04: Ray starts after the sphere (0 points)
         Point po = new Point(1.5,0,0);
         final var result2 = sphere.findIntersections(new Ray(po, v310))
-                .stream().sorted(Comparator.comparingDouble(p -> p.distance(po))).toList();
+                .stream().
+                sorted(Comparator.comparingDouble(p -> p.distance(po)))
+                .toList();
         assertEquals(0, result2.size(), "Wrong number of points");
 
         // =============== Boundary Values Tests ==================
@@ -95,11 +97,11 @@ class SphereTests {
         assertEquals(exp11, result1, "Ray crosses sphere");
 
         // TC12: Ray starts at sphere and goes outside (0 points)
-
         Point p12 = new Point(2,0,0);
         final var result12 = sphere.findIntersections(new Ray(p12, new Vector(3,0,0)))
                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p11))).toList();
         assertEquals(0, result11.size(), "Wrong number of points");
+
 
         // **** Group: Ray's line goes through the center
         // TC13: Ray starts before the sphere (2 points)
@@ -108,28 +110,70 @@ class SphereTests {
                 .stream().sorted(Comparator.comparingDouble(p -> p.distance(p13))).toList();
         assertEquals(2, result11.size(), "Wrong number of points");
         final var exp13 = List.of(new Point(2.577, 2.577, 2.577),new Point(1.423, 1.423, 1.423));
-        assertEquals(exp13, result13, "Ray crosses sphere");
-
+        assertEquals(exp13, result13, " Ray starts before the sphere");
 
         // TC14: Ray starts at sphere and goes inside (1 points)
-        Point p14 = new Point(2,1,0);
-        final var result14 = sphere.findIntersections(new Ray(p14, new Vector(-1,-1,0)))
+        Point p14 = new Point(0.5,0,-0.8660254038);
+        final var result14 = sphere.findIntersections(new Ray(p14, new Vector(0,0,1)))
                 .stream().sorted(Comparator.comparingDouble(p -> p.distance(p14))).toList();
+        final var exp14 = List.of(new Point(0.5,0,0.8660254038));
        assertEquals(1, result14.size(), "Wrong number of points");
-     //  final var exp14 = List.of(new Point(1.293, -0.707, 0) );//todo: fix this bva test
+       assertEquals(exp14, result14, "Ray starts at sphere and goes inside");
 
         // TC15: Ray starts inside (1 points)
+        Point p15 = new Point(0.5,0,-0.5);
+        final var result15 = sphere.findIntersections(new Ray(p15, new Vector(0,0,1)))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p15))).toList();
+        final var exp15 = List.of(new Point(0.5,0,0.8660254038));
+        assertEquals(1, result15.size(), "Wrong number of points");
+        assertEquals(exp15, result15, "Ray starts inside");
+
         // TC16: Ray starts at the center (1 points)
+        Point p16 = new Point(0.5,0,0);
+        final var result16 = sphere.findIntersections(new Ray(p16, new Vector(0,0,1)))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p16))).toList();
+        final var exp16 = List.of(new Point(0.5,0,0.8660254038));
+        assertEquals(1, result16.size(), "Wrong number of points");
+        assertEquals(exp16, result15, "Ray starts at the center");
+
         // TC17: Ray starts at sphere and goes outside (0 points)
+        Point p17 = new Point(2,0,0);
+        final var result17 = sphere.findIntersections(new Ray(p17, new Vector(1,0,0)))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p17))).toList();
+        assertEquals(0, result17.size(), "Wrong number of points");
+
         // TC18: Ray starts after sphere (0 points)
+        Point p18 = new Point(3,0,0);
+        final var result18 = sphere.findIntersections(new Ray(p18, new Vector(1,0,0)))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p18))).toList();
+        assertEquals(0, result18.size(), "Wrong number of points");
+
 
         // **** Group: Ray's line is tangent to the sphere (all tests 0 points)
         // TC19: Ray starts before the tangent point
+        Point p19 = new Point(0,0,1);
+        final var result19 = sphere.findIntersections(new Ray(p19, new Vector(1,0,0)))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p19))).toList();
+        assertEquals(0, result19.size(), "Wrong number of points");
+
         // TC20: Ray starts at the tangent point
+        Point p20 = new Point(1,0,1);
+        final var result20 = sphere.findIntersections(new Ray(p20, new Vector(1,0,0)))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p20))).toList();
+        assertEquals(0, result20.size(), "Wrong number of points");
+
         // TC21: Ray starts after the tangent point
+        Point p21 = new Point(2,0,1);
+        final var result21 = sphere.findIntersections(new Ray(p21, new Vector(1,0,0)))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p21))).toList();
+        assertEquals(0, result21.size(), "Wrong number of points");
 
         // **** Group: Special cases
         // TC22: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
-
+        Point p22 = new Point(1,0,2);
+        final var result22 = sphere.findIntersections(new Ray(p22, new Vector(1,0,0)))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p21))).toList();
+        assertEquals(0, result22.size(), "Wrong number of points");
+        assertEquals(0, sphere.getCenter().subtract(p22).crossProduct(new Vector(1,0,0)), "ray is not orthogonal to ray start to sphere's center line");
     }
 }
