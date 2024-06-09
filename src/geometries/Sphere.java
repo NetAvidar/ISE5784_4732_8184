@@ -47,10 +47,7 @@ public class Sphere extends RadialGeometry {
                 intersections.add(P0.add(L.scale(t2)));
             }
         }
-        if (intersections.isEmpty()) {
-            return null;
-        }
-        return intersections;
+        return intersections.isEmpty() ? null : intersections;
     }
 
     @Override

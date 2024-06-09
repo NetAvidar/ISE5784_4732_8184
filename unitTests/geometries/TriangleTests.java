@@ -53,7 +53,7 @@ class TriangleTests {
         final var result1 = triangle.findIntersections(new Ray(p1, v1))
                 .stream().sorted(Comparator.comparingDouble(p -> p.distance(p1))).toList();
         assertEquals(1, result1.size(), "Wrong number of points");
-        assertEquals(exp1, result1, "Ray ##### triangle");
+        assertEquals(exp1, result1, "Ray crosses triangle");
 
         //outside the triangle
         //TC02: Ray in front of one of its edges (0 point)
