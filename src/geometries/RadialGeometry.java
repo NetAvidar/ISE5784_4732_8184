@@ -19,6 +19,9 @@
             return null;
         }
 
+        public double getRadius() {
+            return radius;
+        }
 
         @Override
         public List<Point> findIntersections(Ray ray){
