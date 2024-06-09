@@ -136,6 +136,7 @@ class SphereTests {
                 .stream().sorted(Comparator.comparingDouble(p -> p.distance(p18))).toList();
         assertEquals(0, result18.size(), "Wrong number of points");
 
+
         // **** Group: Ray's line is tangent to the sphere (all tests 0 points)
         // TC19: Ray starts before the tangent point
         Point p19 = new Point(0,0,1);
