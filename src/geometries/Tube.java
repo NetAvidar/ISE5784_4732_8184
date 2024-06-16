@@ -60,6 +60,10 @@ public class Tube extends  RadialGeometry {
         if (t2 >= 0) {
             intersections.add(p0.add(v.scale(t2)));
         }
+        if (ray.getHead().equals(p0.add(v.scale(t1))))
+            intersections.remove(p0.add(v.scale(t1)));
+        if (ray.getHead().equals(p0.add(v.scale(t2))))
+            intersections.remove(p0.add(v.scale(t2)));
 
         return intersections;
     }
