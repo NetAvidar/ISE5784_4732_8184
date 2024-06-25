@@ -6,7 +6,6 @@ import java.util.MissingResourceException;
 
 public class Camera implements Cloneable{
 
-    //*****************************************************
     private Point location;
 
     //diraction of the camera
@@ -20,9 +19,8 @@ public class Camera implements Cloneable{
     double distance=0.0;
     //from camera
 
-    //*****************************************************
 
-//setters & getters
+    //setters & getters
     public Point getLocation() {
         return location;
     }
@@ -67,20 +65,16 @@ public class Camera implements Cloneable{
         this.distance = distance;
     }
 
-    //*****************************************************
-
     //constractor
     private Camera(){
         Vright=null;
         Vto=null;
         Vup=null;
-        location=new Point(0,0,0);
-       this.height=0.0;
-       this.width=0.0;
-       this.distance=0.0;
+        //location????
+        this.height=0.0;
+        this.width=0.0;
+        this.distance=0.0;
     }
-
-    //*****************************************************
 
     //functions
     public Ray constructRay(int nX, int nY, int j, int i){
@@ -92,7 +86,8 @@ public class Camera implements Cloneable{
         return b;
     }
 
-    //*****************************************************
+
+
     //class Builder
     public static class Builder{
         final private Camera camera ;
@@ -181,10 +176,5 @@ public class Camera implements Cloneable{
             }
         }
 
-
-
     }
-    //*****************************************************
-
 }
-    //*****************************************************

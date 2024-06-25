@@ -43,10 +43,33 @@ public class Plane implements Geometry {
         return normal;
     }
 
-    public Point getQ() {
-        return q;
-    }
-
+//    @Override
+//    public List<Point> findIntersections(Ray ray) {
+//        Point p0 = ray.getHead();
+//        Vector v = ray.getDirection();
+//        Vector n = this.getNormal();
+//        Point q0 = this.getQ();
+//
+//        // (q0 - p0) . n / (v . n)
+//        Vector q0_p0 = q0.subtract(p0);
+//        double denominator = n.dotProduct(v);
+//
+//        if (denominator == 0) {
+//            // The ray is parallel to the plane
+//            return null;
+//        }
+//
+//        double t = n.dotProduct(q0_p0) / denominator;
+//
+//        if (t > 0) {
+//            // Intersection point is in the positive direction of the ray
+//            Point intersectionPoint = p0.add(v.scale(t));
+//            return List.of(intersectionPoint);
+//        } else {
+//            // The intersection point is behind the ray's origin
+//            return null;
+//        }
+//    }
 
     @Override
     public List<Point> findIntersections(Ray ray){
@@ -68,6 +91,10 @@ public class Plane implements Geometry {
         }
         final var l = List.of(p);
         return  l;
+    }
+
+    public Point getQ() {
+        return q;
     }
 }
 

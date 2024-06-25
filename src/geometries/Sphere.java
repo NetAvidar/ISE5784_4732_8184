@@ -20,34 +20,38 @@ public class Sphere extends RadialGeometry {
     @Override
     public List<Point> findIntersections(Ray ray) {
         List<Point> intersections = new ArrayList<>();
-        Point P0 = ray.getHead();
-        Vector L = ray.getDirection();
-        Vector L0 = P0.subtract(center);
+        Vector u = this.center.subtract(ray.getHead());
+        double tm = u.dotProduct(ray.getDirection());
+        double dSquared = u.dotProduct(u) - tm * tm; // d^2 = ||u||^2 - tm^2
 
-        double a = L.dotProduct(L);
-        double b = 2 * L.dotProduct(L0);
-        double c = L0.dotProduct(L0) - radius * radius;
-
-        double discriminant = b * b - 4 * a * c;
-
-        if (discriminant < 0) {
-            return intersections; // No intersection
-        } else if (discriminant == 0) {
-            double t = -b / (2 * a);
-            if (t >= 0) {
-                intersections.add(P0.add(L.scale(t)));
-            }
-        } else {
-            double t1 = (-b + Math.sqrt(discriminant)) / (2 * a);
-            double t2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-            if (t1 >= 0) {
-                intersections.add(P0.add(L.scale(t1)));
-            }
-            if (t2 >= 0) {
-                intersections.add(P0.add(L.scale(t2)));
-            }
+        // Check if the ray is tangent to the sphere (touching at exactly one point).
+        if (Math.abs(dSquared - this.radius * this.radius) < 1E-10) {
+            // The ray touches the sphere tangentially, so we return no intersections.
+            return intersections;  // or you could return null, depending on design choices.
         }
-        return intersections.isEmpty() ? null : intersections;
+
+        if (dSquared > this.radius * this.radius) {
+            // If d^2 is greater than the radius squared, there can't be any intersections.
+            return null;
+        }
+
+        // Proceed with calculation since there are two intersection points
+        double d = Math.sqrt(dSquared);
+        double th = Math.sqrt(this.radius * this.radius - dSquared);
+        double t1 = tm + th;
+        double t2 = tm - th;
+
+        // Only add points where t > 0 to ensure intersections are in the direction of the ray
+        if (t1 > 0) {
+            Point p1 = ray.getHead().add(ray.getDirection().scale(t1));
+            intersections.add(p1);
+        }
+        if (t2 > 0 && t1 != t2) { // Ensure that t1 and t2 are not the same to avoid duplicates
+            Point p2 = ray.getHead().add(ray.getDirection().scale(t2));
+            intersections.add(p2);
+        }
+
+        return intersections;
     }
 
     @Override
@@ -55,6 +59,7 @@ public class Sphere extends RadialGeometry {
         return point.subtract(center).normalize();
     }
 }
+
 
 
 
