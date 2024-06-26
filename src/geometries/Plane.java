@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -87,7 +88,8 @@ public class Plane implements Geometry {
             p=p0.add(v.scale(t));
         }
         else{
-            throw new IllegalArgumentException("t has to be bigger then zero");
+            List<Point>ls = new LinkedList<>();///
+            return ls;
         }
         final var l = List.of(p);
         return  l;
