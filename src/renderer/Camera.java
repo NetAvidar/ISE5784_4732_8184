@@ -70,7 +70,7 @@ public class Camera implements Cloneable{
         Vright=null;
         Vto=null;
         Vup=null;
-        //location????
+        location=new Point(0,0,0);
         this.height=0.0;
         this.width=0.0;
         this.distance=0.0;
@@ -78,6 +78,10 @@ public class Camera implements Cloneable{
 
     //functions
     public Ray constructRay(int nX, int nY, int j, int i){
+
+
+
+
         return null;
     }
 
