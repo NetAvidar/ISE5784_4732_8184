@@ -134,14 +134,14 @@ public class IntegrationTests {
         result1 += func(c,plane1);
         assertEquals(9, result1, "Wrong number of points");
 
-        //case2 - plane intresction view plane once and has 9 point
+        //case2 - plane intrection view plane once and has 9 point
         c.setLocation(new Point(0,0,0));
-        Plane plane2= new Plane(new Point(0,7,0), new Point(1,7,1),new Point(-1,7,-1));
+        Plane plane2= new Plane(new Point(0,7,0),new Point(1,7,1), new Point(-1,7,-1));
         result2 += func(c,plane2);
         assertEquals(9, result2, "Wrong number of points");
 
 
-        //case3 -plane intresction view plane once and has 6 point
+        //case3 -plane intressction view plane once and has 6 point
         c.setLocation(new Point(0,0,0));
         Plane plane3= new Plane(new Point(0,3,1), new Point(1,3,1),new Point(1,0,1));
         result3 += func(c,plane3);
