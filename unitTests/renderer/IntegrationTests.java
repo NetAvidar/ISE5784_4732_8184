@@ -130,20 +130,18 @@ public class IntegrationTests {
         //case1 -plane infront of camera
         //(plane z=5)
         c.setLocation(new Point(0,0,0));
-        Plane plane1= new Plane(new Point(2,3,5),new Point (4,7,5),new Point(0,0,5))
+        Plane plane1= new Plane(new Point(2,3,5),new Point (4,7,5),new Point(0,0,5));
         result1 += func(c,plane1);
         assertEquals(9, result1, "Wrong number of points");
 
-        //case2 - plane intrection view plane once and has 9 point
-        //(plane x+y+z=1)?
+        //case2 - plane intresction view plane once and has 9 point
         c.setLocation(new Point(0,0,0));
-        Plane plane2= new Plane(###);
+        Plane plane2= new Plane(new Point(0,7,0), new Point(1,7,1),new Point(-1,7,-1));
         result2 += func(c,plane2);
         assertEquals(9, result2, "Wrong number of points");
 
 
-        //case3 -plane intrection view plane once and has 6 point
-        //(plane ?)
+        //case3 -plane intresction view plane once and has 6 point
         c.setLocation(new Point(0,0,0));
         Plane plane3= new Plane(new Point(0,3,1), new Point(1,3,1),new Point(1,0,1));
         result3 += func(c,plane3);
