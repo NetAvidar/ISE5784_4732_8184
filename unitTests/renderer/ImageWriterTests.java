@@ -2,8 +2,6 @@ package renderer;
 
 import org.junit.jupiter.api.Test;
 import primitives.*;
-import geometries.*;
-import renderer.*;
 
 public class ImageWriterTests {
 
