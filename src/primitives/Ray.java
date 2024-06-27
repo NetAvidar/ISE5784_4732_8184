@@ -1,5 +1,6 @@
 package primitives;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ray {
@@ -24,8 +25,10 @@ public class Ray {
     {
         if (lst==null)
             return null;
-        Point curr = lst.getFirst();
+        if(lst.isEmpty())
+            return null;
 
+        Point curr = lst.getFirst();
         for(Point p:lst) {
             if (this.head.distance(p)<this.getHead().distance(curr))
                 curr = p;

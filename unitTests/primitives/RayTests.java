@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class RayTests {
-    /* Test method for{} .*/
+    /*** Test method for{} .*/
 
     @Test
     public void testConstructor() {
@@ -24,53 +24,53 @@ class RayTests {
 
         // =============== Boundary Values Tests ==================
 
-
     }
 
     @Test
-    public void testFindClosestPoint()
-    {
+    public void testFindClosestPoint() {
         // ============ Equivalence Partitions Tests ==============
-        Ray r=new Ray(new Point(0,0,0),new Vector(0,0,2));
+        Ray r = new Ray(new Point(0, 0, 0), new Vector(0, 0, 2));
 
         //case1-closes point in the middele of the list
-        List<Point> l1=new ArrayList<>();
-        Point p = new Point (0,0,1);
+        List<Point> l1 = new ArrayList<>();
+        Point p = new Point(0, 0, 1);
 
-        l1.add(new Point (7,2,3));
-        l1.add(new Point(6,4,5));
+        l1.add(new Point(7, 2, 3));
+        l1.add(new Point(6, 4, 5));
         l1.add(p);
-        l1.add(new Point(8,9,10));
+        l1.add(new Point(8, 9, 10));
 
-        assertEquals(p,r.findClosestPoint(l1),"fail- didnt return the closes point that was in the middele of the list");
+        assertEquals(p, r.findClosestPoint(l1), "fail- didnt return the closes point that was in the middele of the list");
 
         // =============== Boundary Values Tests ==================
         //case2-Empty list
-        List<Point> l2=new ArrayList<>();
-        assertEquals(null,r.findClosestPoint(l2),"fail- didnt return null on empty list");
+        List<Point> l2 = new ArrayList<>();
+        assertEquals(null, r.findClosestPoint(l2), "fail- didnt return null on empty list");
 
 
         //case3-closes point in the head of the list
-        List<Point> l3=new ArrayList<>();
-        Point p3 = new Point (0,0,1);
+        List<Point> l3 = new ArrayList<>();
+        Point p3 = new Point(0, 0, 1);
 
         l3.add(p3);
-        l3.add(new Point (7,2,3));
-        l3.add(new Point(6,4,5));
-        l3.add(new Point(8,9,10));
+        l3.add(new Point(7, 2, 3));
+        l3.add(new Point(6, 4, 5));
+        l3.add(new Point(8, 9, 10));
 
-        assertEquals(p3,r.findClosestPoint(l1),"fail- didnt return the closes point that was in the head of the list");
+        assertEquals(p3, r.findClosestPoint(l1), "fail- didnt return the closes point that was in the head of the list");
 
 
         //case4-closes point in the end of the list
-        List<Point> l4=new ArrayList<>();
-        Point p4 = new Point (0,0,1);
+        List<Point> l4 = new ArrayList<>();
+        Point p4 = new Point(0, 0, 1);
 
-        l4.add(new Point (7,2,3));
-        l4.add(new Point(6,4,5));
-        l4.add(new Point(8,9,10));
+        l4.add(new Point(7, 2, 3));
+        l4.add(new Point(6, 4, 5));
+        l4.add(new Point(8, 9, 10));
         l4.add(p4);
 
-        assertEquals(p4,r.findClosestPoint(l1),"fail- didnt return the closes point that was in the end of the list");
+        assertEquals(p4, r.findClosestPoint(l1), "fail- didnt return the closes point that was in the end of the list");
     }
 }
+
+

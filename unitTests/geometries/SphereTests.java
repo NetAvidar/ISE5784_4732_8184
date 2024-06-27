@@ -3,6 +3,7 @@ package geometries;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -180,4 +181,5 @@ class SphereTests {
              assertEquals(0, result22.size(), "Wrong number of points");
         assertEquals(0, sphere.getCenter().subtract(p22).dotProduct(new Vector(1,0,0)), "ray is not orthogonal to ray start to sphere's center line");
     }
+
 }
