@@ -9,20 +9,17 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class RayTests {
-    /*** Test method for{} .*/
+    /* Test method for{} .*/
 
     @Test
-    public void testAdd() {
+    public void testConstructor() {
 
         // ============ Equivalence Partitions Tests ==============
         assertDoesNotThrow(() -> new Ray(new Point(1,2,3),
-                        new Vector(4,5,6),
-                        "Failed constructing a correct ray"));
+                        new Vector(4,5,6)),
+                "Failed constructing a correct ray");
 
         // =============== Boundary Values Tests ==================
 
     }
-}
-
-
 }

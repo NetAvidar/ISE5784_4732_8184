@@ -2,6 +2,7 @@ package renderer;
 
 import geometries.Geometry;
 import geometries.*;
+import renderer.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
