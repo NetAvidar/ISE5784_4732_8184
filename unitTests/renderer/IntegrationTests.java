@@ -171,6 +171,6 @@ public class IntegrationTests {
         Triangle triangle2= new Triangle(new Point(0,20,-2),new Point (1,-1,-2),new Point(-1,-1,-2));
         result2 += func(c,triangle2);
         assertEquals(2, result2, "Wrong number of points");
-    }
 
+    }
 }

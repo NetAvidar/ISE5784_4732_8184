@@ -77,8 +77,22 @@ public class Camera implements Cloneable{
     }
 
     //functions
-    public Ray constructRay(int nX, int nY, int j, int i){
-        return null;
+    public Ray constructRay(int nX, int nY, int j, int i) {
+        Point pC = location.add(Vto.scale(distance));
+        double rY = nX/(width); // ImageWriter.getNy();
+        double rX = nY/(height); // ImageWriter.getNx();
+        double yi = (i - nY / 2d) + rY + (rY / 2d);
+        double xj = (j - nX / 2d) + rX + (rX / 2d);
+        Point pIJ = pC;
+        if (yi != 0) {
+            pIJ = pIJ.add(Vup.scale(-yi));
+        }
+        if (xj != 0) {
+            pIJ = pIJ.add(Vright.scale(xj));
+        }
+        Vector vIJ = pIJ.subtract(location).normalize();
+        return new Ray(location,vIJ);
+
     }
 
     public static Builder getBuilder() {
@@ -136,6 +150,9 @@ public class Camera implements Cloneable{
             return this;
         }
 
+      //  @override
+        //Object clone ()
+
         //func build
         public Camera build(){
             String Scamera = "Camera ";
@@ -167,13 +184,15 @@ public class Camera implements Cloneable{
             camera.Vto.normalize();
             camera.Vright.normalize();
             camera.Vup.normalize();
+            return camera;
 
-            try {
-                return (Camera) camera.clone();
-            }
-            catch (CloneNotSupportedException e){
-                throw new RuntimeException(e);
-            }
+//            try {
+//               // return (Camera) camera.clone();
+//                return camera;
+//            }
+//            catch (CloneNotSupportedException e){
+//                throw new RuntimeException(e);
+//            }
         }
     }
 }
