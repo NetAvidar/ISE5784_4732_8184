@@ -30,7 +30,7 @@ public class Geometries implements Intersectable{
         List<Point> intersections = new LinkedList<>();
         for (Intersectable geo : lst) {
             List<Point> tempIntersections = geo.findIntersections(ray);
-            if (tempIntersections != null && !tempIntersections.isEmpty()) {
+            if (tempIntersections != null){// && !tempIntersections.isEmpty()) {
                 intersections.addAll(tempIntersections);
             }
         }

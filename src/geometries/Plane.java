@@ -88,8 +88,7 @@ public class Plane implements Geometry {
             p=p0.add(v.scale(t));
         }
         else{
-            List<Point>ls = new LinkedList<>();///
-            return ls;
+          return null;
         }
         final var l = List.of(p);
         return  l;

@@ -16,8 +16,8 @@ public class Triangle extends Polygon{
     public List<Point> findIntersections(Ray ray){
         List<Point> emptyList= List.of();
         List<Point> l =this.plane.findIntersections(ray);
-        if(l.isEmpty()){
-            return emptyList;
+        if(l==null){
+            return null;
         }
         else{
             Point p0 =this.vertices.get(0);

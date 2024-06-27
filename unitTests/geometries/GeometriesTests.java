@@ -7,7 +7,7 @@ import primitives.Vector;
 
 import java.util.LinkedList;
 import java.util.List;
-//todo: fix implmention of findIntersections at plane. make sure this tesets are writeen well.
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
