@@ -2,6 +2,8 @@ package primitives;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for primitives.Point class
@@ -20,6 +22,15 @@ class RayTests {
                 "Failed constructing a correct ray");
 
         // =============== Boundary Values Tests ==================
+
+
+
+
+    }
+
+    @Test
+    public void testFindClosestPoint()
+    {
 
     }
 }
