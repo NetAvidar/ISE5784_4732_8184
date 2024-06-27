@@ -25,9 +25,11 @@ public class Ray {
         if (lst==null)
             return null;
         Point curr = lst.getFirst();
-        for(int i =0; i< lst.size();i++)
-        {
-            if ()
+
+        for(Point p:lst) {
+            if (this.head.distance(p)<this.getHead().distance(curr))
+                curr = p;
         }
+        return curr;
     }
 }
