@@ -6,7 +6,7 @@ import java.util.MissingResourceException;
 
 public class Camera implements Cloneable{
 
-    private Point location;
+    private Point location = null;
 
     //diraction of the camera
     private Vector Vup;
@@ -156,6 +156,10 @@ public class Camera implements Cloneable{
         //func build
         public Camera build(){
             String Scamera = "Camera ";
+            //normalize
+            camera.Vto.normalize();
+            camera.Vup.normalize();
+
             if(camera.height==0 ){
                 throw new MissingResourceException("height data is missing ",Scamera,"height");
             }
@@ -165,34 +169,27 @@ public class Camera implements Cloneable{
             if(camera.width==0){
                 throw new MissingResourceException("width data is missing ",Scamera,"width");
             }
-            if(camera.Vto.equals(0)){
+            if(camera.Vto.equals(new Vector(0,0,0))){
                 throw new MissingResourceException("Vector to data is missing ",Scamera,"Vto");
             }
-            if(camera.Vup.equals(0)){
+            if(camera.Vup.equals(new Vector(0,0,0))){
                 throw new MissingResourceException("Vector up data is missing ",Scamera,"Vup");
             }
-//            if(camera.Vright.equals(0)){
-//                throw new MissingResourceException("Vector right data is missing ",Scamera,"Vright");
-//            }
-            if(camera.location.equals(0)){
+            camera.Vright= camera.Vup.crossProduct(camera.Vto);
+            camera.Vright.normalize();
+            if(camera.Vright.equals(new Vector(0,0,0))){
+               throw new MissingResourceException("Vector right data is missing ",Scamera,"Vright");
+            }
+            if(camera.location.equals(null)){
                 throw new MissingResourceException("Point location data is missing ",Scamera,"location");
             }
 
-            camera.Vright= camera.Vup.crossProduct(camera.Vto);
 
-            //normalize
-            camera.Vto.normalize();
-            camera.Vright.normalize();
-            camera.Vup.normalize();
-            return camera;
-
-//            try {
-//               // return (Camera) camera.clone();
-//                return camera;
-//            }
-//            catch (CloneNotSupportedException e){
-//                throw new RuntimeException(e);
-//            }
+            try {
+                return (Camera) camera.clone();
+            }
+            catch (CloneNotSupportedException e){
+                throw new RuntimeException(e);         }
         }
     }
 }
