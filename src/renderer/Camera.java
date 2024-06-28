@@ -17,7 +17,10 @@ public class Camera implements Cloneable{
     double height=0.0;
     double width=0.0;
     double distance=0.0;
-    //from camera
+
+    private static ImageWriter imageWriter;
+    private static RayTracerBase rayTracer;
+
 
 
     //setters & getters
@@ -100,6 +103,35 @@ public class Camera implements Cloneable{
         return b;
     }
 
+    public Camera renderImage(){
+        //throw new UnsupportedOperationException("This operation is not supported - throw from renderImage"); todo: they have asked this function will be void but in the tests there is a use in the return value of this function.
+        for (int i = 0; i < imageWriter.getNy(); i++) {
+            for (int j = 0; j < imageWriter.getNx(); j++) {
+                castRay(imageWriter.getNx()/width,imageWriter.getNy()/height,j,i);
+            }
+        }
+        return this;
+    }
+    
+    private void castRay(double rx,double ry,int j, int i){
+        Ray ray =constructRay(imageWriter.getNx(), imageWriter.getNy(),j,i);
+        Color clr = rayTracer.traceRay(ray);
+        imageWriter.writePixel(j,i,clr);
+    }
+
+    public Camera printGrid (int interval, Color color){
+        for (int i = 0; i < imageWriter.getNy(); i++) {
+            for (int j = 0; j < imageWriter.getNx(); j++) {
+                if(i%interval==0 || j%interval==0)
+                    imageWriter.writePixel(j,i, color);
+            }
+        }
+        return this; //todo: they have asked this function will be void but in the tests there is a use in the return value of this function.
+    }
+
+    public void writeToImage() {
+        imageWriter.writeToImage();
+    }
 
 
     //class Builder
@@ -150,6 +182,17 @@ public class Camera implements Cloneable{
             return this;
         }
 
+        public Builder setImageWriter(ImageWriter im) {
+            imageWriter = im;
+            return this;
+        }
+
+        public Builder setRayTracer(RayTracerBase rt) {
+            rayTracer = rt;
+            return this;
+        }
+
+
       //  @override
         //Object clone ()
 
@@ -183,13 +226,23 @@ public class Camera implements Cloneable{
             if(camera.location.equals(null)){
                 throw new MissingResourceException("Point location data is missing ",Scamera,"location");
             }
+            if(rayTracer.equals(null)){
+                throw new MissingResourceException("rayTracer data is missing ",Scamera,"rayTracer");
+            }
+            if(imageWriter.equals(null)){
+                throw new MissingResourceException("imageWriter data is missing ",Scamera,"imageWriter");
+            }
+
+            return camera;
 
 
-            try {
+            /*try {
                 return (Camera) camera.clone();
             }
             catch (CloneNotSupportedException e){
-                throw new RuntimeException(e);         }
-        }
-    }
-}
+                throw new RuntimeException(e);         }*/
+        }//end of build
+
+    }//end of Builder
+
+}//end of Camera
