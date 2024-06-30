@@ -12,7 +12,7 @@ public class Scene {
 
 
     //constractors
-    Scene(String s){
+    public Scene(String s){
         this.name =s;
     }
 
@@ -36,6 +36,5 @@ public class Scene {
         this.geometries = geometries;
         return this;
     }
-
 
 }
