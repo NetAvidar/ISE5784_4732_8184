@@ -8,7 +8,7 @@ public class AmbientLight {
     private final Color intesity;
     protected Double3 Ka;
     protected Color Ia;
-    public AmbientLight NONE = new AmbientLight(Color.BLACK,0);
+    final static public AmbientLight NONE = new AmbientLight(Color.BLACK,0);
 
 
 

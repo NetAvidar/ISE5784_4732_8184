@@ -1,10 +1,10 @@
-package Scene;
+package scene;
 
 import geometries.Geometries;
 import lighting.AmbientLight;
 import primitives.Color;
 
-public class scene {
+public class Scene {
     public String name;
     public Color background = new Color(0,0,0);
     public AmbientLight ambientLight = AmbientLight.NONE;
@@ -12,27 +12,27 @@ public class scene {
 
 
     //constractors
-    scene(String s){
+    Scene(String s){
         this.name =s;
     }
 
     //setter
-    public scene setName(String name) {
+    public Scene setName(String name) {
         this.name = name;
         return this;
     }
 
-    public scene setBackground(Color background) {
+    public Scene setBackground(Color background) {
         this.background = background;
         return this;
     }
 
-    public scene setAmbientLight(AmbientLight ambientLight) {
+    public Scene setAmbientLight(AmbientLight ambientLight) {
         this.ambientLight = ambientLight;
         return this;
     }
 
-    public scene setGeometries(Geometries geometries) {
+    public Scene setGeometries(Geometries geometries) {
         this.geometries = geometries;
         return this;
     }
