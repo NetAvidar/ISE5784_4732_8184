@@ -5,6 +5,9 @@ import primitives.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 
 public class Plane implements Geometry {
     private final Point q;
@@ -29,7 +32,6 @@ public class Plane implements Geometry {
         Vector v2 = p2.subtract(p0);
         normal = v1.crossProduct(v2).normalize();
         double len = normal.length();
-
         if (normal.length() == 0)
             throw new IllegalArgumentException("The points are collinear");
 
@@ -74,25 +76,35 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray){
-
+        List<Point> emptyList= List.of();
         double t;
-        Point p = new Point (0,0,0);
+        Point p;
         Point p0=ray.getHead();
         Vector v=ray.getDirection();
-        Vector n = this.getNormal();
+        Vector normal = this.getNormal();
         Point q = this.getQ();
-
         Vector a =q.subtract(p0);
-        t = (n.dotProduct(a))/(n.dotProduct(v));
+
+        if(isZero(normal.dotProduct(a))){ //couse ray start on the plane
+            return emptyList;
+        }
+        if(isZero(normal.dotProduct(v))){  //couse ray start on the plane
+            return emptyList;
+        }
+        t = alignZero(normal.dotProduct(a))/(normal.dotProduct(v));
+
         if(t>0){
             p=p0.add(v.scale(t));
+            final var l = List.of(p);
+            return  l;
         }
         else{
-          return null;
+          return emptyList; //todo:was null i change to empty list
         }
-        final var l = List.of(p);
-        return  l;
     }
+
+
+
 
     public Point getQ() {
         return q;

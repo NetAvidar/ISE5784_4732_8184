@@ -16,21 +16,29 @@ public class Triangle extends Polygon{
     public List<Point> findIntersections(Ray ray){
         List<Point> emptyList= List.of();
         List<Point> l =this.plane.findIntersections(ray);
-        if(l==null){
-            return null;
+        Vector v = ray.getDirection();
+
+        if(l.isEmpty()){
+            return emptyList; //todo:was null i change to empty list
         }
         else{
-            Point p0 =this.vertices.get(0);
+            Point p0 =this.vertices.getFirst();
             Point p1=this.vertices.get(1);
-            Point p2=this.vertices.get(2);
-            Point p3=ray.getHead();
-            Vector v1 = p1.subtract(p0);
-            Vector v2 = p2.subtract(p0);
-            Vector v3 = p3.subtract(p0);
+            Point p2=this.vertices.getLast();
+
+            Vector v1 = p0.subtract(ray.getHead());
+            Vector v2 = p1.subtract(ray.getHead());
+            Vector v3 = p2.subtract(ray.getHead());
+
             Vector n1 =v1.crossProduct(v2);
             Vector n2 =v2.crossProduct(v3);
             Vector n3 =v3.crossProduct(v1);
-            if(n1.dotProduct(n2)>0 && n2.dotProduct(n3)>0 && n3.dotProduct(n1)>0){
+
+            var a = v.dotProduct(n1);
+            var b = v.dotProduct(n2);
+            var c = v.dotProduct(n3);
+
+            if((a>0 && b>0 && c>0) || (a<0 && b<0 && c<0)){
                 return l;
             }
             else{

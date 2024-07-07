@@ -18,8 +18,8 @@ public class Camera implements Cloneable{
     double width=0.0;
     double distance=0.0;
 
-    private static ImageWriter imageWriter;
-    private static RayTracerBase rayTracer;
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
 
 
 
@@ -77,32 +77,46 @@ public class Camera implements Cloneable{
         this.height=0.0;
         this.width=0.0;
         this.distance=0.0;
+        //imageWriter=;
+        //rayTracer=;
     }
 
     //functions
     public Ray constructRay(int nX, int nY, int j, int i) {
-        Point pC = location.add(Vto.scale(distance));
-        double rY = nX/(width); // ImageWriter.getNy();
-        double rX = nY/(height); // ImageWriter.getNx();
-        double yi = (i - nY / 2d) + rY + (rY / 2d);
-        double xj = (j - nX / 2d) + rX + (rX / 2d);
+        /*Point pC = location.add(Vto.scale(distance));
+        int numOfRow =1000;
+        int numOfColumn =1000;
+        double rX = nX/(width); // ImageWriter.getNy();
+        double rY = nY/(height); // ImageWriter.getNx();
+        double yi = -((i - ((numOfRow-1) / 2)))*rY; //todo:i change according to lab
+        double xj = ((j - ((numOfColumn-1) / 2)))*rX;//todo:i change according to lab
         Point pIJ = pC;
         if (yi != 0) {
-            pIJ = pIJ.add(Vup.scale(-yi));
+            pIJ = pIJ.add(Vup.scale(yi)); //todo:i change. according to lab was -yi
         }
         if (xj != 0) {
             pIJ = pIJ.add(Vright.scale(xj));
         }
         Vector vIJ = pIJ.subtract(location).normalize();
-        return new Ray(location,vIJ);
+        return new Ray(location,vIJ); */
+            Point pC = location.add(Vto.scale(distance));
+            double Rx = width / nX;
+            double Ry = height / nY;
+            double xJ = (j - (double) (nX - 1) / 2) * Rx;
+            double yI = -(i - (double) (nY - 1) / 2) * Ry;
+            Vector pIJ = new Vector(pC.getXyz());
+            if (xJ != 0)
+                pIJ = pIJ.add(Vright.scale(xJ));
+            if (yI != 0)
+                pIJ = pIJ.add(Vup.scale(yI));
+            Vector vIJ = pIJ.subtract(location);
+            return new Ray(location, vIJ);
 
     }
-
     public static Builder getBuilder() {
         Builder b=new Builder();
         return b;
     }
-
     public Camera renderImage(){
         //throw new UnsupportedOperationException("This operation is not supported - throw from renderImage"); todo: they have asked this function will be void but in the tests there is a use in the return value of this function.
         for (int i = 0; i < imageWriter.getNy(); i++) {
@@ -112,13 +126,11 @@ public class Camera implements Cloneable{
         }
         return this;
     }
-    
     private void castRay(double rx,double ry,int j, int i){
-        Ray ray =constructRay(imageWriter.getNx(), imageWriter.getNy(),j,i);
+        Ray ray =constructRay(imageWriter.getNx(),imageWriter.getNy(),j,i);
         Color clr = rayTracer.traceRay(ray);
         imageWriter.writePixel(j,i,clr);
     }
-
     public Camera printGrid (int interval, Color color){
         for (int i = 0; i < imageWriter.getNy(); i++) {
             for (int j = 0; j < imageWriter.getNx(); j++) {
@@ -128,7 +140,6 @@ public class Camera implements Cloneable{
         }
         return this; //todo: they have asked this function will be void but in the tests there is a use in the return value of this function.
     }
-
     public void writeToImage() {
         imageWriter.writeToImage();
     }
@@ -181,14 +192,12 @@ public class Camera implements Cloneable{
             camera.distance = distance;
             return this;
         }
-
         public Builder setImageWriter(ImageWriter im) {
-            imageWriter = im;
+            camera.imageWriter = im;
             return this;
         }
-
         public Builder setRayTracer(RayTracerBase rt) {
-            rayTracer = rt;
+            camera.rayTracer = rt;
             return this;
         }
 
@@ -226,10 +235,10 @@ public class Camera implements Cloneable{
             if(camera.location.equals(null)){
                 throw new MissingResourceException("Point location data is missing ",Scamera,"location");
             }
-            if(rayTracer.equals(null)){
+            if(camera.rayTracer.equals(null)){
                 throw new MissingResourceException("rayTracer data is missing ",Scamera,"rayTracer");
             }
-            if(imageWriter.equals(null)){
+            if(camera.imageWriter.equals(null)){
                 throw new MissingResourceException("imageWriter data is missing ",Scamera,"imageWriter");
             }
 
