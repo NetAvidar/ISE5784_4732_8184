@@ -86,12 +86,12 @@ public class Plane implements Geometry {
         Vector a =q.subtract(p0);
 
         if(isZero(normal.dotProduct(a))){ //couse ray start on the plane
-            return emptyList;
+            return null;
         }
         if(isZero(normal.dotProduct(v))){  //couse ray start on the plane
-            return emptyList;
+            return null;
         }
-        t = alignZero(normal.dotProduct(a))/(normal.dotProduct(v));
+        t = alignZero((normal.dotProduct(a))/(normal.dotProduct(v)));
 
         if(t>0){
             p=p0.add(v.scale(t));
@@ -99,7 +99,7 @@ public class Plane implements Geometry {
             return  l;
         }
         else{
-          return emptyList; //todo:was null i change to empty list
+          return null;
         }
     }
 

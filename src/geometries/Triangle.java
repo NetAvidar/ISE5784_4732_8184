@@ -18,8 +18,8 @@ public class Triangle extends Polygon{
         List<Point> l =this.plane.findIntersections(ray);
         Vector v = ray.getDirection();
 
-        if(l.isEmpty()){
-            return emptyList; //todo:was null i change to empty list
+        if(l==null){
+            return null; //todo:was null i change to empty list
         }
         else{
             Point p0 =this.vertices.getFirst();
@@ -42,7 +42,7 @@ public class Triangle extends Polygon{
                 return l;
             }
             else{
-                return emptyList;
+                return null;
             }
         }
     }

@@ -42,7 +42,7 @@ public class Sphere extends RadialGeometry {
         //*****************************************************************************
         if (d >= this.radius) { //no intrection
             // If d is greater or equles than the radius, there can't be any intersections.
-            return intersections; //todo:here we return null and down we return empty list
+            return null;
         }
         //*****************************************************************************
         // Proceed with calculation since there are two intersection points
@@ -63,6 +63,9 @@ public class Sphere extends RadialGeometry {
             intersections.add(p2);
         }
 
+        if(intersections.isEmpty()){
+            return null;
+        }
         return intersections;
     }
 

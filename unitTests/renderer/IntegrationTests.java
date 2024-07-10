@@ -28,55 +28,21 @@ public class IntegrationTests {
             .setDirection(new Vector(0,1,0),new Vector(0,0,1))
             .setVpSize(6,6)
             .setVpDistance(1)
-            .setRayTracer(new SimpleRayTracer(s))                                 //todo:why do we need this line?
-            .setImageWriter(new ImageWriter("check",300,300)) //todo:why do we need this line?
+            .setRayTracer(new SimpleRayTracer(s))
+            .setImageWriter(new ImageWriter("check",300,300))
             .build();
     //**************************************************************
-/*
-    int func1(Camera c, Sphere sphere) { //get camera and sphere and return num of intresction from every ray in the view plane
-        List<Point> l;
-        Ray r;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                r = c.constructRay(3, 3, j, i);
-                l = sphere.findIntersections(r);
-                result += l.size();
-            }
-        }
-        return result;
-    }
-    int func2(Camera c, Plane plane){ //get camera and plane and return num of intresction from every ray in the view plane
-        List<Point> l;
-        Ray r;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                r = c.constructRay(3, 3, j, i);
-                l = plane.findIntersections(r); // here is the only differnt from func1
-                result += l.size();
-            }
-        }
-        return result;
-    }
-    int func3(Camera c, Triangle triangle) {//get camera and triangle and return num of intresction from every ray in the view plane
-        List<Point> l;
-        Ray r;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                r = c.constructRay(3, 3, j, i);
-                l = triangle.findIntersections(r); // here is the only differnt from func2
-                result += l.size();
-            }
-        }
-        return result;
-    }*/
+
     int func(Camera c, Intersectable obj) {//get camera and triangle and return num of intresction from every ray in the view plane
         List<Point> l;
         Ray r;
-        for (int i = 50; i < 300; i+=100) { // 300 because we want to builde and paint ray for pixels
-            for (int j = 50; j < 300; j+=100) { // 300 because we want to builde and paint ray for pixels
-                r = c.constructRay(300, 300, j, i); //todo: it not really nx ny, its not pixel here // and why i cant rech nx ny throw camera
+        for (int i = 50; i < 300; i+=100) {
+            for (int j = 50; j < 300; j+=100) {
+                r = c.constructRay(300, 300, j, i);
                 l = obj.findIntersections(r);
-                result += l.size(); //todo: i did that everybody return emptylist and not null , but if we do return null then we need if here
+                if(l!=null){
+                    result += l.size();
+                }
             }
         }
         return result;
@@ -147,11 +113,12 @@ public class IntegrationTests {
         assertEquals(9, result1, "Wrong number of points");
 
         result=0;
+         //Plane plane2= new Plane(new Point(0,7,0),new Point(1,7,1), new Point(-1,7,-1));
+        //Plane plane2= new Plane(new Point(0,0,8),new Point(1,2,6), new Point(-1,3,5));
 
         //case2 - plane intrection view plane once and has 9 point
         c.setLocation(new Point(0,0,0));
-        //Plane plane2= new Plane(new Point(0,7,0),new Point(1,7,1), new Point(-1,7,-1));
-        Plane plane2= new Plane(new Point(0,0,8),new Point(1,2,6), new Point(-1,3,5));
+        Plane plane2= new Plane(new Point(0,0,5),new Vector(0,1,2));
         result2 += func(c,plane2);
         assertEquals(9, result2, "Wrong number of points");
 
