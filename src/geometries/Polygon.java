@@ -98,4 +98,9 @@ public class Polygon extends Geometry {
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return List.of();
     }
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        return List.of();
+    }
+
 }

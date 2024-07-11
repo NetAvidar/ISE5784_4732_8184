@@ -36,4 +36,17 @@ public class Geometries extends Intersectable{
         }
         return intersections.isEmpty() ? null : intersections;
     }
+
+    @Override
+    protected  List <GeoPoint> findGeoIntersectionsHelper(Ray ray)
+    {
+        List<GeoPoint> intersections = new LinkedList<>();
+        for (Intersectable geo : lst) {
+            List<GeoPoint> tempIntersections = geo.findGeoIntersectionsHelper(ray);
+            if (tempIntersections != null){// && !tempIntersections.isEmpty()) {
+                intersections.addAll(tempIntersections);
+            }
+        }
+        return intersections.isEmpty() ? null : intersections;
+    }
 }
