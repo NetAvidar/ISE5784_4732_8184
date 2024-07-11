@@ -33,13 +33,13 @@ public class IntegrationTests {
             .build();
     //**************************************************************
 
-    int func(Camera c, Intersectable obj) {//get camera and triangle and return num of intresction from every ray in the view plane
+    int func(Camera c, Intersectable intersectable) {//get camera and triangle and return num of intresction from every ray in the view plane
         List<Point> l;
         Ray r;
         for (int i = 50; i < 300; i+=100) {
             for (int j = 50; j < 300; j+=100) {
                 r = c.constructRay(300, 300, j, i);
-                l = obj.findIntersections(r);
+                l = intersectable.findIntersections(r);
                 if(l!=null){
                     result += l.size();
                 }

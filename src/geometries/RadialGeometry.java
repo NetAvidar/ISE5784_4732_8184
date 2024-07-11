@@ -6,28 +6,25 @@
 
     import java.util.List;
 
-    public class RadialGeometry implements Geometry {
-
+    public class RadialGeometry extends Geometry {
+//////////////////////////////////////////////////////////////////////////
         protected final double radius;
 
+ //////////////////////////////////////////////////////////////////////////
         public RadialGeometry(double radius) {
             this.radius = radius;
         }
-
         @Override
         public Vector getNormal(Point point) {
             return null;
         }
-
         public double getRadius() {
             return radius;
         }
 
+//////////////////////////////////////////////////////////////////////////
         @Override
-        public List<Point> findIntersections(Ray ray){
-
-            return List.of();
-        }
+        protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){return List.of();};
 
 
     }

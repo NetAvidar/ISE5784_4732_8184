@@ -5,6 +5,7 @@ import primitives.Ray;
 import primitives.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Triangle extends Polygon{
@@ -13,13 +14,12 @@ public class Triangle extends Polygon{
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray){
-        List<Point> emptyList= List.of();
-        List<Point> l =this.plane.findIntersections(ray);
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+        List<GeoPoint> l =this.plane.findGeoIntersectionsHelper(ray);
         Vector v = ray.getDirection();
 
         if(l==null){
-            return null; //todo:was null i change to empty list
+            return null;
         }
         else{
             Point p0 =this.vertices.getFirst();
@@ -39,7 +39,11 @@ public class Triangle extends Polygon{
             var c = v.dotProduct(n3);
 
             if((a>0 && b>0 && c>0) || (a<0 && b<0 && c<0)){
-                return l;
+                GeoPoint planeInter = l.getFirst();
+                List<GeoPoint> ans = new ArrayList<>();
+                planeInter.geometry = this;
+                ans.add(planeInter);
+                return ans;
             }
             else{
                 return null;

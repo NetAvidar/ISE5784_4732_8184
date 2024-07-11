@@ -4,7 +4,7 @@ import primitives.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tube extends  RadialGeometry {
+public class Tube extends RadialGeometry {
 
 
     protected Ray axis;
@@ -24,9 +24,54 @@ public class Tube extends  RadialGeometry {
         return normal;
     }
 
+//    @Override
+//    public List<Point> findIntersections(Ray ray) {
+//        List<Point> intersections = new ArrayList<>();
+//
+//        Point p0 = ray.getHead();
+//        Vector v = ray.getDirection();
+//
+//        Point pa = axis.getHead();
+//        Vector va = axis.getDirection();
+//
+//        Vector deltaP = p0.subtract(pa);
+//
+//        Vector vCrossVa = v.crossProduct(va);
+//        Vector deltaPCrossVa = deltaP.crossProduct(va);
+//
+//        double a = vCrossVa.dotProduct(vCrossVa);
+//        double b = 2 * vCrossVa.dotProduct(deltaPCrossVa);
+//        double c = deltaPCrossVa.dotProduct(deltaPCrossVa) - (radius * radius) * va.dotProduct(va);
+//
+//        double discriminant = b * b - 4 * a * c;
+//
+//        if (discriminant < 0) {
+//            return intersections; // No intersections
+//        }
+//
+//        double sqrtDiscriminant = Math.sqrt(discriminant);
+//
+//        double t1 = (-b + sqrtDiscriminant) / (2 * a);
+//        double t2 = (-b - sqrtDiscriminant) / (2 * a);
+//
+//        if (t1 >= 0) {
+//            intersections.add(p0.add(v.scale(t1)));
+//        }
+//        if (t2 >= 0) {
+//            intersections.add(p0.add(v.scale(t2)));
+//        }
+//        if (ray.getHead().equals(p0.add(v.scale(t1))))
+//            intersections.remove(p0.add(v.scale(t1)));
+//        if (ray.getHead().equals(p0.add(v.scale(t2))))
+//            intersections.remove(p0.add(v.scale(t2)));
+//
+//        return intersections;
+//    }
+
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> intersections = new ArrayList<>();
+    protected List <GeoPoint> findGeoIntersectionsHelper(Ray ray){
+
+        List<GeoPoint> intersections = new ArrayList<>();
 
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();
@@ -55,20 +100,19 @@ public class Tube extends  RadialGeometry {
         double t2 = (-b - sqrtDiscriminant) / (2 * a);
 
         if (t1 >= 0) {
-            intersections.add(p0.add(v.scale(t1)));
+            intersections.add(new GeoPoint(this, p0.add(v.scale(t1))));
         }
         if (t2 >= 0) {
-            intersections.add(p0.add(v.scale(t2)));
+            intersections.add(new GeoPoint(this, p0.add(v.scale(t2))));
         }
         if (ray.getHead().equals(p0.add(v.scale(t1))))
-            intersections.remove(p0.add(v.scale(t1)));
+            intersections.remove(new GeoPoint(this,p0.add(v.scale(t1))));
         if (ray.getHead().equals(p0.add(v.scale(t2))))
-            intersections.remove(p0.add(v.scale(t2)));
+            intersections.remove(new GeoPoint(this,p0.add(v.scale(t2))));
 
         return intersections;
+
     }
 
 
 }
-
-

@@ -9,9 +9,9 @@ import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     private final Point q;
-    private  final Vector normal;
+    private final Vector normal;
 
     private final double DELTA = 0.000001;
 
@@ -21,10 +21,10 @@ public class Plane implements Geometry {
     }
 
     public Plane(Point p0, Point p1, Point p2) {
-        if (p0==null || p1==null || p2==null)
+        if (p0 == null || p1 == null || p2 == null)
             throw new IllegalArgumentException("A plane cannot have null points");
 
-        if(p0.equals(p1)|| p1.equals(p2)||p2.equals(p0))
+        if (p0.equals(p1) || p1.equals(p2) || p2.equals(p0))
             throw new IllegalArgumentException("Can't build a plane with only 2 points");
 
         q = p0;
@@ -38,7 +38,7 @@ public class Plane implements Geometry {
     }
 
     public Vector getNormal() {
-        return  normal;
+        return normal;
     }
 
     @Override
@@ -46,68 +46,73 @@ public class Plane implements Geometry {
         return normal;
     }
 
+    public Point getQ() {
+        return q;
+    }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 //    @Override
 //    public List<Point> findIntersections(Ray ray) {
 //        Point p0 = ray.getHead();
 //        Vector v = ray.getDirection();
-//        Vector n = this.getNormal();
-//        Point q0 = this.getQ();
+//        Vector normal = this.getNormal();
+//        Point q = this.getQ();
+//        //Vector a =q.subtract(p0);
 //
-//        // (q0 - p0) . n / (v . n)
-//        Vector q0_p0 = q0.subtract(p0);
-//        double denominator = n.dotProduct(v);
-//
-//        if (denominator == 0) {
-//            // The ray is parallel to the plane
+//        double x = normal.dotProduct(q.subtract(p0));
+//        if (isZero(x)) { //couse ray start on the plane
+//            return null;
+//        }
+//        double nv = normal.dotProduct(v);
+//        if (isZero(nv)) {  //couse ray parpllel to the plane
 //            return null;
 //        }
 //
-//        double t = n.dotProduct(q0_p0) / denominator;
+//        double t = alignZero(x / nv);
 //
+//        if (t <= 0) {
+//            return null;
+//        }
 //        if (t > 0) {
-//            // Intersection point is in the positive direction of the ray
-//            Point intersectionPoint = p0.add(v.scale(t));
-//            return List.of(intersectionPoint);
-//        } else {
-//            // The intersection point is behind the ray's origin
-//            return null;
+//            Point p = p0.add(v.scale(t));
+//            final var l = List.of(p);
+//            return l;
 //        }
+//        return null;
 //    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public List<Point> findIntersections(Ray ray){
-        List<Point> emptyList= List.of();
-        double t;
-        Point p;
-        Point p0=ray.getHead();
-        Vector v=ray.getDirection();
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        Point p0 = ray.getHead();
+        Vector v = ray.getDirection();
         Vector normal = this.getNormal();
         Point q = this.getQ();
-        Vector a =q.subtract(p0);
 
-        if(isZero(normal.dotProduct(a))){ //couse ray start on the plane
+        double x = normal.dotProduct(q.subtract(p0));
+        //couse ray start on the plane
+        if (isZero(x)) {
             return null;
         }
-        if(isZero(normal.dotProduct(v))){  //couse ray start on the plane
+        double nv = normal.dotProduct(v);
+        //couse ray parpllel to the plane
+        if (isZero(nv)) {
             return null;
         }
-        t = alignZero((normal.dotProduct(a))/(normal.dotProduct(v)));
 
-        if(t>0){
-            p=p0.add(v.scale(t));
-            final var l = List.of(p);
-            return  l;
+        double t = alignZero(x / nv);
+
+        if (t <= 0) {
+            return null;
         }
-        else{
-          return null;
+        if (t > 0) {
+            Point p=p0.add(v.scale(t));
+            GeoPoint gp=new GeoPoint(this,p);
+            final var l = List.of(gp);
+            return l;
         }
+        return null;
     }
-
-
-
-
-    public Point getQ() {
-        return q;
-    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 }
-
