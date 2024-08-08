@@ -15,6 +15,7 @@ public abstract class Intersectable {
                this.geometry = geo;
           }
 
+
           public Geometry getGeometry() {
                return geometry;
           }
@@ -34,7 +35,6 @@ public abstract class Intersectable {
                        '}';
           }
      }
-
 
 
      public List<Point> findIntersections(Ray ray) {
