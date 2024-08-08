@@ -225,6 +225,8 @@ import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
 import primitives.Color;
+
+import java.util.LinkedList;
 import java.util.List;
 import static primitives.Util.alignZero;
 
@@ -404,12 +406,35 @@ public class SimpleRayTracer extends RayTracerBase {
         return ktr;
     }
 
-    //
+    //good
     private GeoPoint findClosestIntersection(Ray ray) {
         List<GeoPoint> geoPointIntersections = scene.geometries.findGeoIntersections(ray);
 
         // Return the closest intersection point using the ray's findClosestGeoPoint method
         return ray.findClosestGeoPoint(geoPointIntersections);
+    }
+
+    //gp intresction
+    //ray is ray from loction camera to gp
+
+    private Double3 softShadow(GeoPoint gp,Ray ray,LightSource light,int numOfRatsAtBeam){
+        //calling to function tat cuaclte the loction of the target area ,squre
+        //calling to function that get the target area and return list of GeoPoint of all the GeoPoint we cuaclte i random algoritem in the target area
+        //for each point in our squer we create a ray from the ray.head to it and call with this ray to transperncy function
+        //we sum all the Double3 values that return from each calling (for each ray in the beam) and than divide by the amount of rays we cast from each pixel
+        //^thats what we return
+        Ray r;
+        Double3 sumTrascprency=Double3.ZERO;
+
+        for (GeoPoint pointInTargetArea : geoPointInTheTargetArea) {
+            r=new Ray(ray.getHead(),pointInTargetArea.point.subtract(ray.getHead()));
+            sumTrascprency.add(this.transparency(pointInTargetArea,
+                    light,
+                    light.getL(pointInTargetArea.point),
+                    pointInTargetArea.geometry.getNormal(pointInTargetArea.point)));
+
+        }
+        return sumTrascprency.reduce(numOfRatsAtBeam);
     }
 
 
