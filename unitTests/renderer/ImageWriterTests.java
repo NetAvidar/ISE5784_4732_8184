@@ -13,7 +13,7 @@ public class ImageWriterTests {
         Color back = new Color(250, 125, 100);
 
         Camera c = new Camera.Builder()
-                .setDirection(new Vector(0, 1, 0), new Vector(0, 0, 1))
+                .setDirection(new Vector(0, 1, 0), new Vector(0, 0, -1))
                 .setVpSize(10, 16)
                 .setVpDistance(1)
                 .setRayTracer(new SimpleRayTracer(s))                                 //todo:why do we need this line?

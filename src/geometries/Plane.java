@@ -2,7 +2,6 @@ package geometries;
 
 import primitives.*;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
@@ -51,37 +50,6 @@ public class Plane extends Geometry {
     }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//    @Override
-//    public List<Point> findIntersections(Ray ray) {
-//        Point p0 = ray.getHead();
-//        Vector v = ray.getDirection();
-//        Vector normal = this.getNormal();
-//        Point q = this.getQ();
-//        //Vector a =q.subtract(p0);
-//
-//        double x = normal.dotProduct(q.subtract(p0));
-//        if (isZero(x)) { //couse ray start on the plane
-//            return null;
-//        }
-//        double nv = normal.dotProduct(v);
-//        if (isZero(nv)) {  //couse ray parpllel to the plane
-//            return null;
-//        }
-//
-//        double t = alignZero(x / nv);
-//
-//        if (t <= 0) {
-//            return null;
-//        }
-//        if (t > 0) {
-//            Point p = p0.add(v.scale(t));
-//            final var l = List.of(p);
-//            return l;
-//        }
-//        return null;
-//    }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {

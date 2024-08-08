@@ -3,6 +3,8 @@ package renderer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import primitives.*;
+import scene.Scene;
 //import scene.Scene;
 
 /**
@@ -10,27 +12,28 @@ import org.junit.jupiter.api.Test;
  * @author Dan
  */
 class CameraTests {
-    /** Camera builder for the tests
+     //Camera builder for the tests
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(new Scene("Test")))
             .setImageWriter(new ImageWriter("Test", 1, 1))
             .setLocation(Point.ZERO)
-            .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
+            .setDirection(new Vector(0, -1, 0), new Vector(0, 0, -1))
             .setVpDistance(10);
 
-    /**
-     * Test method for
-     * {@link renderer.Camera#constructRay(int, int, int, int)}.
-     */
+
+//    @Test method for
+//      {link renderer.Camera#constructRay(int, int, int, int)}
+
     @Test
     void testConstructRay() {
-   /*     final String badRay  = "Bad ray";
+        final String badRay  = "Bad ray";
 
         // ============ Equivalence Partitions Tests ==============
-        // EP01: 4X4 Inside (1,1)
+        // EP01: 4X4 Inside (1,1)//////////////////////////////////////////////////////////////
         Camera camera1 = cameraBuilder.setVpSize(8, 8).build();
         assertEquals(new Ray(Point.ZERO, new Vector(1, -1, -10)),
-                camera1.constructRay(4, 4, 1, 1), badRay);
+                camera1.constructRay(4, 4, 1, 1),badRay);
+
 
         // =============== Boundary Values Tests ==================
         // BV01: 4X4 Corner (0,0)
@@ -58,6 +61,6 @@ class CameraTests {
         assertEquals(new Ray(Point.ZERO, new Vector(2, -2, -10)),
                 camera2.constructRay(3, 3, 0, 0), badRay);
 
-  */  }
+    }
 
 }

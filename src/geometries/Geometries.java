@@ -25,20 +25,8 @@ public class Geometries extends Intersectable{
     }
 
 
-//    @Override
-//    public List<Point> findIntersections(Ray ray) {
-//        List<Point> intersections = new LinkedList<>();
-//        for (Intersectable geo : lst) {
-//            List<Point> tempIntersections = geo.findIntersections(ray);
-//            if (tempIntersections != null){// && !tempIntersections.isEmpty()) {
-//                intersections.addAll(tempIntersections);
-//            }
-//        }
-//        return intersections.isEmpty() ? null : intersections;
-//    }
-
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         List<GeoPoint> intersections = new LinkedList<>();
         for (Intersectable gp : lst) {
             List<GeoPoint> tempIntersections = gp.findGeoIntersectionsHelper(ray);

@@ -24,7 +24,7 @@
 
 //////////////////////////////////////////////////////////////////////////
         @Override
-        protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){return List.of();};
+        protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){return null;};
 
 
     }

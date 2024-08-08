@@ -5,20 +5,18 @@ import primitives.Double3;
 
 public class AmbientLight extends Light {
 
-    //private final Color intesity;
-    protected Double3 Ka;
     protected Color Ia;
+    protected Double3 Ka;
     public final static AmbientLight NONE = new AmbientLight(Color.BLACK,0);
-
-
-
-    public AmbientLight(Color i, Double3 k) { super(i.scale(k));}
-
-    public AmbientLight(Color i, double k) {
-        super(i.scale(k));
+    //constructor
+    public AmbientLight(Color ia, Double3 ka)
+    {
+        super(ia.scale(ka));
+    }
+    public AmbientLight(Color ia, double k)
+    {
+        super(ia.scale(k));
     }
 
-    //public Color getIntesity() {
-        return intesity;
-    }
+
 }

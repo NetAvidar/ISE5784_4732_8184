@@ -3,13 +3,13 @@ package primitives;
 import java.util.Objects;
 
 public class Point {
+
     public static final Point ZERO = new Point(0d,0d,0d);  //d main double
     protected Double3 xyz;
 
     public Double3 getXyz() {
         return xyz;
     }
-
 
     public Point(double x, double y, double z) {
         this.xyz = new Double3(x, y, z); //DRY
@@ -36,7 +36,6 @@ public class Point {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (!(o instanceof Point point)) return false; //use instanceof like Dan asked
         return Objects.equals(xyz, point.xyz);
     }
@@ -62,4 +61,6 @@ public class Point {
         Double3 newXYZ = this.xyz.subtract(point.xyz);
         return new Vector(newXYZ);
     }
+
+
 }
