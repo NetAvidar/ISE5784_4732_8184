@@ -275,6 +275,11 @@ public class SimpleRayTracer extends RayTracerBase {
         return this;
     }
 
+    public SimpleRayTracer setNumOfRaysAtBeam(int numRaysAtBeam) {
+        this.numOfRaysAtBeam = numRaysAtBeam;
+        return this;
+    }
+
     /**
      * Traces a ray and calculates the color of the closest intersection point on objects in the scene.
      *
@@ -312,29 +317,71 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     //good
-    private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
+//    private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
+//        Color color = gp.geometry.getEmission();
+//        Vector v = ray.getDirection();
+//        Vector n = gp.geometry.getNormal(gp.point);
+//        double nv = alignZero(n.dotProduct(v));
+//        //there is no effect on the color
+//        if (nv == 0)
+//            return color;
+//        Material material = gp.geometry.getMaterial();
+//        for (LightSource lightSource : scene.lights) {
+//            Vector l = lightSource.getL(gp.point);
+//            double nl = alignZero(n.dotProduct(l));
+//            // check if sign(nl) == sign(nv)
+//            if (nl * nv > 0){  // &&(unshaded(gp,l,n))) {
+//                //if yes, there is effect on the color
+//                Double3 ktr = transparency(gp,lightSource, l, n);
+//                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
+//                    Color iL = lightSource.getIntensity(gp.point).scale(ktr);
+//                    color = color.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material, n, l, nl, v)));
+//                }
+//            }
+//        }
+//        return color;
+//    }
+        private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
         Color color = gp.geometry.getEmission();
         Vector v = ray.getDirection();
-        Vector n = gp.geometry.getNormal(gp.point);
+        Point point = gp.point;
+        Vector n = gp.geometry.getNormal(point);
         double nv = alignZero(n.dotProduct(v));
-        //there is no effect on the color
         if (nv == 0)
             return color;
-        if(softShadow)
-        {
-
-        }
         Material material = gp.geometry.getMaterial();
-        for (LightSource lightSource : scene.lights) {
-            Vector l = lightSource.getL(gp.point);
-            double nl = alignZero(n.dotProduct(l));
-            // check if sign(nl) == sign(nv)
-            if (nl * nv > 0){  // &&(unshaded(gp,l,n))) {
-                //if yes, there is effect on the color
-                Double3 ktr = transparency(gp,lightSource, l, n);
-                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
-                    Color iL = lightSource.getIntensity(gp.point).scale(ktr);
-                    color = color.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material, n, l, nl, v)));
+        //option for soft shadows:
+        if (softShadow) {
+            for (LightSource lightSource : scene.lights) {
+                Color colorBeam = Color.BLACK;//starting color for shade
+                var vectors = lightSource.getListL(point);
+                for (var l : vectors) {
+                    double nl = alignZero(n.dotProduct(l));
+                    // check that light direction is towards shape and not behind
+                    if (nl * nv > 0) { // sign(nl) == sing(nv)
+                        Double3 ktr = transparency(gp, lightSource, l, n);
+                        if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
+                            Color iL = lightSource.getIntensity(gp.point).scale(ktr);
+                            colorBeam = colorBeam.add(iL.scale(calcDiffusive(material, nl)),
+                                                      iL.scale(calcSpecular(material, n, l, nl, v)));
+                        }
+                    }
+                }
+                color = color.add(colorBeam.reduce(vectors.size()));
+
+            }
+        } else {
+
+            for (LightSource lightSource : scene.lights) {
+                Vector l = lightSource.getL(point);
+                double nl = alignZero(n.dotProduct(l));
+                if (nl * nv > 0) { // sign(nl) == sign(nv)
+                    Double3 ktr = transparency(gp, lightSource, l, n);
+                    if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
+                        Color iL = lightSource.getIntensity(point).scale(ktr);
+                        color = color.add(iL.scale(calcDiffusive(material, nl)),
+                                iL.scale(calcSpecular(material, n, l, nl, v)));
+                    }
                 }
             }
         }
@@ -431,9 +478,9 @@ public class SimpleRayTracer extends RayTracerBase {
         return ray.findClosestGeoPoint(geoPointIntersections);
     }
 
+
     //gp intresction
     //ray is ray from loction camera to gp
-
     private Double3 softShadow(GeoPoint gp,Ray ray, Vector n, Vector l) {
         //calling to function tat cuaclte the loction of the target area ,squre
         //calling to function that get the target area and return list of GeoPoint of all the GeoPoint we cuaclte i random algoritem in the target area
@@ -467,7 +514,9 @@ public class SimpleRayTracer extends RayTracerBase {
 
 
 
-   //double pointLightD = light.getDistance(gp.point); //not revers?
+
+
+
     private boolean unshaded(GeoPoint gp, Vector l, Vector n, double nl, LightSource light) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
