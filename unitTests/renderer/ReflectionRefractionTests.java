@@ -136,7 +136,7 @@ public class ReflectionRefractionTests {
         ourScene.lights.add(new DirectionalLight(new Color(255, 255, 255), new Vector(1, 1, 0)));
 
 
-        ImageWriter imageWriter = new ImageWriter("our image", 500, 500);
+        ImageWriter imageWriter = new ImageWriter("our image", 1000, 1000);
         cameraBuilder.setImageWriter(imageWriter) //
                 .setRayTracer(new SimpleRayTracer(ourScene)) //
                 .build()

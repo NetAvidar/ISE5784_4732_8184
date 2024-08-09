@@ -252,7 +252,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private static final Double3 INITIAL_K = Double3.ONE;
 
-
+    private boolean softShadow;
     /**
      * Constructs a RayTracerBasic object with the specified scene.
      *
@@ -268,6 +268,11 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param ray the ray to be traced
      * @return the color of the closest intersection Geopoint or the background color if there are no intersections
      */
+    public SimpleRayTracer setSoftShadow(boolean softShadow) {
+        this.softShadow = softShadow;
+        return this;
+    }
+
     //*****************************************************************************************
     @Override
     public Color traceRay(Ray ray) {
@@ -423,18 +428,20 @@ public class SimpleRayTracer extends RayTracerBase {
         //for each point in our squer we create a ray from the ray.head to it and call with this ray to transperncy function
         //we sum all the Double3 values that return from each calling (for each ray in the beam) and than divide by the amount of rays we cast from each pixel
         //^thats what we return
+
         Ray r;
         Double3 sumTrascprency=Double3.ZERO;
 
-        for (GeoPoint pointInTargetArea : geoPointInTheTargetArea) {
-            r=new Ray(ray.getHead(),pointInTargetArea.point.subtract(ray.getHead()));
-            sumTrascprency.add(this.transparency(pointInTargetArea,
-                    light,
-                    light.getL(pointInTargetArea.point),
-                    pointInTargetArea.geometry.getNormal(pointInTargetArea.point)));
-
-        }
-        return sumTrascprency.reduce(numOfRatsAtBeam);
+//        for (GeoPoint pointInTargetArea : geoPointInTheTargetArea) {
+//            r=new Ray(ray.getHead(),pointInTargetArea.point.subtract(ray.getHead()));
+//            sumTrascprency.add(this.transparency(pointInTargetArea,
+//                    light,
+//                    light.getL(pointInTargetArea.point),
+//                    pointInTargetArea.geometry.getNormal(pointInTargetArea.point)));
+//
+//        }
+//        return sumTrascprency.reduce(numOfRatsAtBeam);
+//        return null;
     }
 
 
