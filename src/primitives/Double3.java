@@ -34,6 +34,20 @@ public class Double3 {
      */
     public static final Double3 ONE = new Double3(1, 1, 1);
 
+    public double getD3() {
+        return d3;
+    }
+
+    public double getD2() {
+        return d2;
+    }
+
+    public double getD1() {
+        return d1;
+    }
+
+
+
     /**
      * Constructor to initialize Double3 based object with its three number values
      *

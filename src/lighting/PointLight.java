@@ -7,6 +7,10 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.lang.Math.sqrt;
+import static primitives.Util.isZero;
+import java.util.Random;
+
 public class PointLight extends Light implements LightSource{
 
     final Point position;
@@ -38,16 +42,20 @@ public class PointLight extends Light implements LightSource{
     public Color getIntensity(Point p) {
         return getIntensity().reduce(getDenominatorLight(p));
     }
+
     protected double getDenominatorLight(Point p) {
         double distance = p.distance(position);
         return kC + kL * distance + kQ * distance * distance;
     }
+
     private Point getPosition() {
         return position;
     }
+
     public double getDistance(Point point) {
         return point.distance(this.position);
     }
+
     @Override
     public Vector getL(Point p) {
         return (p.subtract(this.getPosition())).normalize();
@@ -85,6 +93,67 @@ public class PointLight extends Light implements LightSource{
         vectors.add(getL(p));
         return vectors;
 
+    }
+
+    // for random number of rays to create for soft shadows
+    private static final Random RND = new Random();
+
+   // @Override
+    public List<Vector> getLCircle(Point p, double r, int amount) {
+        if (p.equals(position)) {
+            return null;
+        }
+
+        List<Vector> result = new LinkedList<>();
+
+        Vector l = getL(p); // vector to the center of the point light
+        result.add(l);
+
+        if (amount < 2) {
+            return result;
+        }
+
+        Vector vAcross;
+        // if l is parallel to z axis, then the normal is across z on x-axis
+        if (isZero(l.getXyz().getD1()) && isZero(l.getXyz().getD2())) {
+            // switch z and x places
+            vAcross = new Vector(0, 0, -1 * l.getXyz().getD3()).normalize();
+        } else { // otherwise get the normal using x and y
+            // switched x and y places
+            vAcross = new Vector(l.getXyz().getD1(), -1 * l.getXyz().getD2(), 0).normalize();
+        }
+
+        // the vector to the other direction
+        Vector vForward = vAcross.crossProduct(l).normalize();
+
+        double cosAngle, sinAngle, moveX, moveY, d;
+
+        for (int i = 0; i < amount; i++) {
+            // Random cosine of angle between (-1, 1)
+            cosAngle = 2 * RND.nextDouble() - 1;
+
+            // sin(angle) = sqrt(1 - cos^2(angle))
+            sinAngle = Math.sqrt(1 - cosAngle * cosAngle);
+
+            // d is a random distance between (-r, r)
+            d = r * (2 * RND.nextDouble() - 1);
+
+            // If d is zero, retry to avoid duplicating the center point
+            if (isZero(d)) {
+                i--;
+                continue;
+            }
+
+            // Calculate the random point around the position
+            moveX = vAcross.scale(cosAngle * d).getXyz().getD1();
+            moveY = vForward.scale(sinAngle * d).getXyz().getD2();
+            Point movedPoint = position.add(new Vector(moveX, moveY, 0));
+
+            // Add the vector from point p to this moved point
+            result.add(movedPoint.subtract(p));
+        }
+
+        return result;
     }
 
 }

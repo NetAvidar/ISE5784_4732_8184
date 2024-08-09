@@ -26,6 +26,10 @@ public class Camera implements Cloneable{
 
 
 
+
+
+
+
     //setters & getters
     public Point getLocation() {
         return location;
@@ -74,6 +78,8 @@ public class Camera implements Cloneable{
     public void setDistance(double distance) {
         this.distance = distance;
     }
+
+
 
     //constractor
     private Camera(){

@@ -13,4 +13,5 @@ public interface LightSource {
     public Vector getL (Point p);
     public double getDistance(Point p);
     public List<Vector> getListL(Point p);
+ //   public List <Vector> getCircle(Point p, double r, int amount);
 }
