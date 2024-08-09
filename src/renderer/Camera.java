@@ -27,6 +27,10 @@ public class Camera implements Cloneable{
     private int radiusOfTargetArea = 0;
 
 
+
+
+
+
     //setters & getters
     public Point getLocation() {
         return location;
@@ -78,6 +82,8 @@ public class Camera implements Cloneable{
         this.radiusOfTargetArea = radiusOfTargetArea;
         return this;
     }
+
+
 
     //constractor
     private Camera(){

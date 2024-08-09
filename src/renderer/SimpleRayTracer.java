@@ -33,6 +33,15 @@ public class SimpleRayTracer extends RayTracerBase {
 
     private boolean softShadow = false;
     private int numOfRaysAtBeam = 1;
+    private int radiusOfTargetArea = 0;
+
+    public SimpleRayTracer setSoftShadow(boolean softShadow) {
+        this.softShadow = softShadow;
+        return this;
+    }
+
+
+
     /**
      * Constructs a RayTracerBasic object with the specified scene.
      *
@@ -42,14 +51,8 @@ public class SimpleRayTracer extends RayTracerBase {
         super(scene);
     }
 
-    public SimpleRayTracer setSoftShadow(boolean softShadow) {
-        this.softShadow = softShadow;
-        return this;
-    }
-    public SimpleRayTracer setNumOfRaysAtBeam(int numRaysAtBeam) {
-        this.numOfRaysAtBeam = numRaysAtBeam;
-        return this;
-    }
+
+
     /**
      * Traces a ray and calculates the color of the closest intersection point on objects in the scene.
      *
@@ -107,11 +110,7 @@ public class SimpleRayTracer extends RayTracerBase {
 
                 if(softShadow)
                 {
-                    List <Vector> lst = lightSource.getListL(gp.point);
-                    for (Vector lAroundLight: lst) {
-                        ktr = ktr.add(this.softShadow(gp,lightSource,n,lAroundLight));
-                    }
-                    ktr = ktr.reduce(lst.size());
+                   ktr =  softShadow(gp,lightSource,n);
                 }
                 else {
                      ktr = transparency(gp,lightSource,l,n);
@@ -218,7 +217,7 @@ public class SimpleRayTracer extends RayTracerBase {
     //gp intresction
     //ray is ray from loction camera to gp
 
-    private Double3 softShadow(GeoPoint gp, LightSource lightSource, Vector l, Vector n) {
+    private Double3 softShadow(GeoPoint gp, LightSource lightSource, Vector n) {
         //calling to function tat cuaclte the loction of the target area ,squre
         //calling to function that get the target area and return list of GeoPoint of all the GeoPoint we cuaclte i random algoritem in the target area
         //for each point in our squer we create a ray from the ray.head to it and call with this ray to transperncy function
@@ -226,44 +225,40 @@ public class SimpleRayTracer extends RayTracerBase {
         //^thats what we return
 
         //List <GeoPoint> geoPointInTheTargetArea = getCircle(...)
-
         Double3 sumTrascprency = Double3.ZERO;
-        for (GeoPoint pointInTargetArea : geoPointInTheTargetArea) {
-            sumTrascprency.add(transparency(pointInTargetArea, lightSource,l,n));
+        List <Vector> lst = lightSource.getListL(gp.point);
+        for (Vector lAroundLight: lst) {
+            sumTrascprency = sumTrascprency.add(transparency(gp,lightSource,lAroundLight,n));
         }
+        return  sumTrascprency.reduce(lst.size());
 
-        return sumTrascprency.reduce(numOfRaysAtBeam);
     }
 
 
-
-
-
-
-   //double pointLightD = light.getDistance(gp.point); //not revers?
-    private boolean unshaded(GeoPoint gp, Vector l, Vector n, double nl, LightSource light) {
-        Vector lightDirection = l.scale(-1); // from point to light source
-        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
-        Point point = gp.point.add(epsVector);
-        Ray lightRay = new Ray(point, lightDirection);
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-        if (intersections == null)
-            return true;
-        double pointLightD = light.getDistance(gp.point); //todo: not revers?
-        for(GeoPoint intresectGP: intersections)
-        {
-            if (gp.point.distance(intresectGP.point) < pointLightD)
-                return false;
-        }
-        return true;
-    }
-
-    private boolean unshaded(GeoPoint gp, Vector l, Vector n) {
-        Vector lightDirection = l.scale(-1d); // from point to light source
-        Ray lightRay = new Ray(gp.point, lightDirection, n);
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-        return intersections == null;
-    }
+//   //double pointLightD = light.getDistance(gp.point); //not revers?
+//    private boolean unshaded(GeoPoint gp, Vector l, Vector n, double nl, LightSource light) {
+//        Vector lightDirection = l.scale(-1); // from point to light source
+//        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
+//        Point point = gp.point.add(epsVector);
+//        Ray lightRay = new Ray(point, lightDirection);
+//        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+//        if (intersections == null)
+//            return true;
+//        double pointLightD = light.getDistance(gp.point); //todo: not revers?
+//        for(GeoPoint intresectGP: intersections)
+//        {
+//            if (gp.point.distance(intresectGP.point) < pointLightD)
+//                return false;
+//        }
+//        return true;
+//    }
+//
+//    private boolean unshaded(GeoPoint gp, Vector l, Vector n) {
+//        Vector lightDirection = l.scale(-1d); // from point to light source
+//        Ray lightRay = new Ray(gp.point, lightDirection, n);
+//        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+//        return intersections == null;
+//    }
 
 
 }
