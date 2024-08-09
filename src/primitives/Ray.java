@@ -43,8 +43,6 @@ public class Ray {
     public GeoPoint findClosestGeoPoint(List<GeoPoint> lst){
         if (lst==null)
             return null;
-        if(lst.isEmpty())
-            return null;
 
         GeoPoint curr = lst.getFirst();
         for(GeoPoint gp:lst) {

@@ -36,4 +36,6 @@ public class Geometries extends Intersectable{
         }
         return intersections.isEmpty() ? null : intersections;
     }
+
+
 }

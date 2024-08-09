@@ -46,10 +46,10 @@ class PlaneTests {
 
 
         //TC01: Ray crosses the plane(1 point)
-        final var result1 = plane.findIntersections(new Ray(p1, v1))
-                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p1))).toList();
+        final var result1 = plane.findIntersections(new Ray(p1, v1));
+                result1.stream().sorted(Comparator.comparingDouble(p -> p.distance(p1))).toList();
         assertEquals(1, result1.size(), "Wrong number of points");
-        assertEquals(exp1, result1, "Ray crosses plane");
+        assertEquals(exp1, result1, "Ray crosses plane");  //todo:fix it
 
         //TC02: Ray not crosses the plane(0 point)
         final var result2 = plane.findIntersections(new Ray(p1, v2))
