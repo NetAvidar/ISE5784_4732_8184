@@ -97,10 +97,6 @@ public class SimpleRayTracer extends RayTracerBase {
 
             // check if sign(nl) == sign(nv)
             if (nl * nv > 0){
-
-
-
-
                 if(softShadow)
                 {
                    ktr =  softShadow(gp,lightSource,n);
