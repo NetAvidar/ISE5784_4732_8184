@@ -89,6 +89,7 @@ public class PointLight extends Light implements LightSource{
                 }
 
             }
+
         }
         vectors.add(getL(p));
         return vectors;

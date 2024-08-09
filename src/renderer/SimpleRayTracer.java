@@ -31,14 +31,6 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private static final Double3 INITIAL_K = Double3.ONE;
 
-    private boolean softShadow = false;
-    private int numOfRaysAtBeam = 1;
-    private int radiusOfTargetArea = 0;
-
-    public SimpleRayTracer setSoftShadow(boolean softShadow) {
-        this.softShadow = softShadow;
-        return this;
-    }
 
 
 
@@ -108,7 +100,7 @@ public class SimpleRayTracer extends RayTracerBase {
             // check if sign(nl) == sign(nv)
             if (nl * nv > 0){
 
-                if(softShadow)
+                if(scene.isSoftShadow())
                 {
                    ktr =  softShadow(gp,lightSource,n);
                 }
@@ -233,33 +225,6 @@ public class SimpleRayTracer extends RayTracerBase {
         return  sumTrascprency.reduce(lst.size());
 
     }
-
-
-//   //double pointLightD = light.getDistance(gp.point); //not revers?
-//    private boolean unshaded(GeoPoint gp, Vector l, Vector n, double nl, LightSource light) {
-//        Vector lightDirection = l.scale(-1); // from point to light source
-//        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
-//        Point point = gp.point.add(epsVector);
-//        Ray lightRay = new Ray(point, lightDirection);
-//        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-//        if (intersections == null)
-//            return true;
-//        double pointLightD = light.getDistance(gp.point); //todo: not revers?
-//        for(GeoPoint intresectGP: intersections)
-//        {
-//            if (gp.point.distance(intresectGP.point) < pointLightD)
-//                return false;
-//        }
-//        return true;
-//    }
-//
-//    private boolean unshaded(GeoPoint gp, Vector l, Vector n) {
-//        Vector lightDirection = l.scale(-1d); // from point to light source
-//        Ray lightRay = new Ray(gp.point, lightDirection, n);
-//        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-//        return intersections == null;
-//    }
-
 
 }
 
