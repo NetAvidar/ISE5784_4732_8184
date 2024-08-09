@@ -6,6 +6,7 @@ import scene.Scene;
 import geometries.Intersectable.GeoPoint;
 import primitives.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 import static primitives.Util.alignZero;
 
@@ -87,10 +88,12 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector v = ray.getDirection();
         Vector n = gp.geometry.getNormal(gp.point);
         double nv = alignZero(n.dotProduct(v));
+        Double3 ktr=Double3.ZERO;
+
         //there is no effect on the color
-        if (nv == 0)
+        if (nv == 0){
             return color;
-        Double3 ktr = Double3.ZERO;
+        }
 
         Material material = gp.geometry.getMaterial();
         for (LightSource lightSource : scene.lights) {
@@ -99,7 +102,6 @@ public class SimpleRayTracer extends RayTracerBase {
 
             // check if sign(nl) == sign(nv)
             if (nl * nv > 0){
-
                 if(scene.isSoftShadow())
                 {
                    ktr =  softShadow(gp,lightSource,n);
@@ -176,9 +178,9 @@ public class SimpleRayTracer extends RayTracerBase {
 
     //good
     private Double3 transparency(GeoPoint geoPoint,LightSource light, Vector l, Vector n) {
-        Vector lightDirection  = l.scale(-1d); // from point to light source
-        Ray lightRay = new Ray(geoPoint.point,lightDirection, n);
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+        Vector shadowVector  = l.scale(-1d); // from point to light source
+        Ray shadowRay = new Ray(geoPoint.point,n,shadowVector);
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(shadowRay);
 
         if (intersections == null) {
             return Double3.ONE;
@@ -201,13 +203,10 @@ public class SimpleRayTracer extends RayTracerBase {
     //good
     private GeoPoint findClosestIntersection(Ray ray) {
         List<GeoPoint> geoPointIntersections = scene.geometries.findGeoIntersections(ray);
-
         // Return the closest intersection point using the ray's findClosestGeoPoint method
         return ray.findClosestGeoPoint(geoPointIntersections);
     }
 
-    //gp intresction
-    //ray is ray from loction camera to gp
 
     private Double3 softShadow(GeoPoint gp, LightSource lightSource, Vector n) {
         //calling to function tat cuaclte the loction of the target area ,squre
@@ -218,13 +217,27 @@ public class SimpleRayTracer extends RayTracerBase {
 
         //List <GeoPoint> geoPointInTheTargetArea = getCircle(...)
         Double3 sumTrascprency = Double3.ZERO;
-        List <Vector> lst = lightSource.getListL(gp.point);
+        List <Vector> lst = lightSource.getListL(gp.point); // return rays from gp to light
         for (Vector lAroundLight: lst) {
-            sumTrascprency = sumTrascprency.add(transparency(gp,lightSource,lAroundLight,n));
+            sumTrascprency = sumTrascprency.add(transparency(gp,lightSource,lAroundLight,n));//in transparency we transpret them to shadow rays
         }
         return  sumTrascprency.reduce(lst.size());
 
     }
+
+//    public static List<Point> SquareArea(double x, double y, double z, double size) {
+//        List<Point> squareArea = new ArrayList<>();
+//        // Calculate half of the size to find the corner points
+//        double halfSize = size / 2;
+//
+//        // Define the four corners of the square in the XY plane (you can change it to other planes)
+//        squareArea.add(new Point(x - halfSize, y, z - halfSize)); // Bottom-left corner
+//        squareArea.add(new Point(x + halfSize, y, z - halfSize)); // Bottom-right corner
+//        squareArea.add(new Point(x - halfSize, y, z + halfSize)); // Top-left corner
+//        squareArea.add(new Point(x + halfSize, y, z + halfSize)); // Top-right corner
+//
+//        return squareArea;
+//    }
 
 }
 

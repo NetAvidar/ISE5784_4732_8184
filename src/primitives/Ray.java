@@ -46,7 +46,7 @@ public class Ray {
 
         GeoPoint curr = lst.getFirst();
         for(GeoPoint gp:lst) {
-            if (this.head.distance(gp.point)<this.getHead().distance(curr.point))
+            if (this.head.distance(gp.point)<this.head.distance(curr.point))
                 curr = gp;
         }
         return curr;

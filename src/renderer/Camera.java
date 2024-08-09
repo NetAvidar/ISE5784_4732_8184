@@ -115,6 +115,7 @@ public class Camera implements Cloneable{
         Builder b=new Builder();
         return b;
     }
+
     public Camera renderImage(){
         //throw new UnsupportedOperationException("This operation is not supported - throw from renderImage"); todo: they have asked this function will be void but in the tests there is a use in the return value of this function.
         final int nX = imageWriter.getNx();
