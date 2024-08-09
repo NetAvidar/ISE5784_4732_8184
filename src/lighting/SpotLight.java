@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import java.util.List;
+
 import static java.lang.Math.max;
 import static primitives.Util.alignZero;
 
@@ -44,6 +46,9 @@ public class SpotLight extends PointLight{
     }
 
 
+    public List<Vector> getListL(Point p) {
+        return super.getListL(p);
+    }
 
     }
 

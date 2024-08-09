@@ -37,10 +37,15 @@ public class PointLight extends Light implements LightSource{
         this.kQ = kQ;
         return this;
     }
+
+    public PointLight setRadius(double r) {
+        radius = r;
+        return this;
+    }
     //getter
     @Override
     public Color getIntensity(Point p) {
-        return getIntensity().reduce(getDenominatorLight(p));
+        return getIntensity().scale(1/getDenominatorLight(p));
     }
 
     protected double getDenominatorLight(Point p) {
