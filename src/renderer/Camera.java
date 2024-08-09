@@ -24,6 +24,7 @@ public class Camera implements Cloneable{
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
 
+    private int radiusOfTargetArea = 0;
 
 
     //setters & getters
@@ -52,7 +53,6 @@ public class Camera implements Cloneable{
         return imageWriter;
     }
 
-
     public void setVup(Vector vup) {
         Vup = vup;
     }
@@ -73,6 +73,10 @@ public class Camera implements Cloneable{
     }
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+    public Camera setRadiusOfTargetArea(int radiusOfTargetArea) {
+        this.radiusOfTargetArea = radiusOfTargetArea;
+        return this;
     }
 
     //constractor

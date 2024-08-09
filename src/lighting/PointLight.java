@@ -53,6 +53,10 @@ public class PointLight extends Light implements LightSource{
         return (p.subtract(this.getPosition())).normalize();
     }
 
+
+
+
+
     public List<Vector> getListL(Point p) {
         List<Vector> vectors = new LinkedList();
         //grid of vectors around the light
@@ -86,6 +90,7 @@ public class PointLight extends Light implements LightSource{
         return vectors;
 
     }
+
 
 }
 
