@@ -31,16 +31,6 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private static final Double3 INITIAL_K = Double3.ONE;
 
-    private boolean softShadow = false;
-    private int numOfRaysAtBeam = 1;
-    private int radiusOfTargetArea = 0;
-
-    public SimpleRayTracer setSoftShadow(boolean softShadow) {
-        this.softShadow = softShadow;
-        return this;
-    }
-
-
 
     /**
      * Constructs a RayTracerBasic object with the specified scene.

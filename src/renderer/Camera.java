@@ -27,10 +27,6 @@ public class Camera implements Cloneable{
     private int radiusOfTargetArea = 0;
 
 
-
-
-
-
     //setters & getters
     public Point getLocation() {
         return location;

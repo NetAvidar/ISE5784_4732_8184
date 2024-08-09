@@ -4,6 +4,7 @@ import geometries.Geometries;
 import lighting.AmbientLight;
 import lighting.LightSource;
 import primitives.Color;
+import renderer.SimpleRayTracer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,9 @@ public class Scene {
     public AmbientLight ambientLight = AmbientLight.NONE;
     public Geometries geometries = new Geometries() ;
     public List<LightSource> lights = new LinkedList<>();
+    private int numOfRaysAtBeam = 1;
+    private int radiusOfTargetArea = 0;
+    private boolean softShadow = false;
 
 
     //constractors
@@ -26,24 +30,29 @@ public class Scene {
         this.name = name;
         return this;
     }
-
     public Scene setBackground(Color background) {
         this.background = background;
         return this;
     }
-
     public Scene setAmbientLight(AmbientLight ambientLight) {
         this.ambientLight = ambientLight;
         return this;
     }
-
     public Scene setGeometries(Geometries geometries) {
         this.geometries = geometries;
         return this;
     }
-
     public Scene setLights(List<LightSource> lights) {
         this.lights = lights;
         return this;
+    }
+    public Scene setSoftShadow(boolean softShadow) {
+        this.softShadow = softShadow;
+        return this;
+    }
+
+
+    public boolean isSoftShadow() {
+        return softShadow;
     }
 }
