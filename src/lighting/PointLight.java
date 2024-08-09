@@ -13,7 +13,7 @@ public class PointLight extends Light implements LightSource{
     private double kQ = 0d;
     private double kL = 0d;
     private double kC = 1d;
-    private double radius=0; //size of radius around the light to create soft shadows
+    private double radius = 0d;
 
     //constructor
     public PointLight(Color intensity, Point position) {
@@ -51,7 +51,7 @@ public class PointLight extends Light implements LightSource{
     @Override
     public Vector getL(Point p) {
         return (p.subtract(this.getPosition())).normalize();
-    }// from light to point
+    }
 
     public List<Vector> getListL(Point p) {
         List<Vector> vectors = new LinkedList();
@@ -86,8 +86,6 @@ public class PointLight extends Light implements LightSource{
         return vectors;
 
     }
-
-
 
 }
 

@@ -1,6 +1,5 @@
 package lighting;
 import primitives.*;
-
 import java.util.List;
 
 public class DirectionalLight extends Light implements LightSource{
@@ -26,10 +25,11 @@ public class DirectionalLight extends Light implements LightSource{
     public double getDistance(Point point) {
         return Double.POSITIVE_INFINITY;
     }
+
     @Override
     public List<Vector> getListL(Point p) {
         return List.of(getL(p));
-
     }
+
 
 }

@@ -226,7 +226,6 @@ import scene.Scene;
 import geometries.Intersectable.GeoPoint;
 import primitives.Color;
 
-import java.util.LinkedList;
 import java.util.List;
 import static primitives.Util.alignZero;
 
@@ -267,11 +266,6 @@ public class SimpleRayTracer extends RayTracerBase {
 
     public SimpleRayTracer setSoftShadow(boolean softShadow) {
         this.softShadow = softShadow;
-        return this;
-    }
-
-    public SimpleRayTracer setSoftShadow(int numRaysAtBeam) {
-        this.numOfRaysAtBeam = numRaysAtBeam;
         return this;
     }
 
@@ -317,71 +311,38 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     //good
-//    private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
-//        Color color = gp.geometry.getEmission();
-//        Vector v = ray.getDirection();
-//        Vector n = gp.geometry.getNormal(gp.point);
-//        double nv = alignZero(n.dotProduct(v));
-//        //there is no effect on the color
-//        if (nv == 0)
-//            return color;
-//        Material material = gp.geometry.getMaterial();
-//        for (LightSource lightSource : scene.lights) {
-//            Vector l = lightSource.getL(gp.point);
-//            double nl = alignZero(n.dotProduct(l));
-//            // check if sign(nl) == sign(nv)
-//            if (nl * nv > 0){  // &&(unshaded(gp,l,n))) {
-//                //if yes, there is effect on the color
-//                Double3 ktr = transparency(gp,lightSource, l, n);
-//                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
-//                    Color iL = lightSource.getIntensity(gp.point).scale(ktr);
-//                    color = color.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material, n, l, nl, v)));
-//                }
-//            }
-//        }
-//        return color;
-//    }
-        private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
+    private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
         Color color = gp.geometry.getEmission();
         Vector v = ray.getDirection();
-        Point point = gp.point;
-        Vector n = gp.geometry.getNormal(point);
+        Vector n = gp.geometry.getNormal(gp.point);
         double nv = alignZero(n.dotProduct(v));
+        //there is no effect on the color
         if (nv == 0)
             return color;
+        Double3 ktr = Double3.ZERO;
+
         Material material = gp.geometry.getMaterial();
-        //option for soft shadows:
-        if (softShadow) {
-            for (LightSource lightSource : scene.lights) {
-                Color colorBeam = Color.BLACK;//starting color for shade
-                var vectors = lightSource.getListL(point);
-                for (var l : vectors) {
-                    double nl = alignZero(n.dotProduct(l));
-                    // check that light direction is towards shape and not behind
-                    if (nl * nv > 0) { // sign(nl) == sing(nv)
-                        Double3 ktr = transparency(gp, lightSource, l, n);
-                        if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
-                            Color iL = lightSource.getIntensity(gp.point).scale(ktr);
-                            colorBeam = colorBeam.add(iL.scale(calcDiffusive(material, nl)),
-                                                      iL.scale(calcSpecular(material, n, l, nl, v)));
-                        }
+        for (LightSource lightSource : scene.lights) {
+            Vector l = lightSource.getL(gp.point);
+            double nl = alignZero(n.dotProduct(l));
+
+            // check if sign(nl) == sign(nv)
+            if (nl * nv > 0){
+
+                if(softShadow)
+                {
+                    List <Vector> lst = lightSource.getListL(gp.point);
+                    for (Vector lAroundLight: lst) {
+                        ktr = ktr.add(this.softShadow(gp,lightSource,n,lAroundLight));
                     }
+                    ktr = ktr.reduce(lst.size());
                 }
-                color = color.add(colorBeam.reduce(vectors.size()));
-
-            }
-        } else {
-
-            for (LightSource lightSource : scene.lights) {
-                Vector l = lightSource.getL(point);
-                double nl = alignZero(n.dotProduct(l));
-                if (nl * nv > 0) { // sign(nl) == sign(nv)
-                    Double3 ktr = transparency(gp, lightSource, l, n);
-                    if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
-                        Color iL = lightSource.getIntensity(point).scale(ktr);
-                        color = color.add(iL.scale(calcDiffusive(material, nl)),
-                                iL.scale(calcSpecular(material, n, l, nl, v)));
-                    }
+                else {
+                     ktr = transparency(gp,lightSource,l,n);
+                }
+                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
+                    Color iL = lightSource.getIntensity(gp.point).scale(ktr);
+                    color = color.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material, n, l, nl, v)));
                 }
             }
         }
@@ -478,45 +439,28 @@ public class SimpleRayTracer extends RayTracerBase {
         return ray.findClosestGeoPoint(geoPointIntersections);
     }
 
-
     //gp intresction
     //ray is ray from loction camera to gp
-    private Double3 softShadow(GeoPoint gp,Ray ray, Vector n, Vector l) {
+
+    private Double3 softShadow(GeoPoint gp, LightSource lightSource, Vector l, Vector n) {
         //calling to function tat cuaclte the loction of the target area ,squre
         //calling to function that get the target area and return list of GeoPoint of all the GeoPoint we cuaclte i random algoritem in the target area
         //for each point in our squer we create a ray from the ray.head to it and call with this ray to transperncy function
         //we sum all the Double3 values that return from each calling (for each ray in the beam) and than divide by the amount of rays we cast from each pixel
         //^thats what we return
-        Ray r;
+
+        //List <GeoPoint> geoPointInTheTargetArea = getCircle(...)
+
         Double3 sumTrascprency = Double3.ZERO;
-
-        for (LightSource lightSource : scene.lights ) {
-
-            for (GeoPoint pointInTargetArea : geoPointInTheTargetArea) {
-                double nl = alignZero(n.dotProduct(l));
-                double nv = alignZero(n.dotProduct(ray.getDirection()));
-                // check that light direction is towards shape and not behind
-                if (nl * nv > 0) { // sign(nl) == sing(nv)
-
-                    sumTrascprency.add(this.transparency(pointInTargetArea,
-                            lightSource,
-                            lightSource.getL(pointInTargetArea.point),
-                            pointInTargetArea.geometry.getNormal(pointInTargetArea.point)));
-
-                }
-            }
-
+        for (GeoPoint pointInTargetArea : geoPointInTheTargetArea) {
+            sumTrascprency.add(transparency(pointInTargetArea, lightSource,l,n));
         }
+
         return sumTrascprency.reduce(numOfRaysAtBeam);
-        return null;
     }
 
 
-
-
-
-
-
+   //double pointLightD = light.getDistance(gp.point); //not revers?
     private boolean unshaded(GeoPoint gp, Vector l, Vector n, double nl, LightSource light) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
@@ -540,8 +484,6 @@ public class SimpleRayTracer extends RayTracerBase {
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
         return intersections == null;
     }
-
-
 
 
 }
