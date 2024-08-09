@@ -331,11 +331,7 @@ public class SimpleRayTracer extends RayTracerBase {
 
                 if(softShadow)
                 {
-                    List <Vector> lst = lightSource.getListL(gp.point);
-                    for (Vector lAroundLight: lst) {
-                        ktr = ktr.add(this.softShadow(gp,lightSource,n,lAroundLight));
-                    }
-                    ktr = ktr.reduce(lst.size());
+                   ktr =  softShadow(gp,lightSource,n);
                 }
                 else {
                      ktr = transparency(gp,lightSource,l,n);
@@ -442,7 +438,7 @@ public class SimpleRayTracer extends RayTracerBase {
     //gp intresction
     //ray is ray from loction camera to gp
 
-    private Double3 softShadow(GeoPoint gp, LightSource lightSource, Vector l, Vector n) {
+    private Double3 softShadow(GeoPoint gp, LightSource lightSource, Vector n) {
         //calling to function tat cuaclte the loction of the target area ,squre
         //calling to function that get the target area and return list of GeoPoint of all the GeoPoint we cuaclte i random algoritem in the target area
         //for each point in our squer we create a ray from the ray.head to it and call with this ray to transperncy function
@@ -450,13 +446,13 @@ public class SimpleRayTracer extends RayTracerBase {
         //^thats what we return
 
         //List <GeoPoint> geoPointInTheTargetArea = getCircle(...)
-
         Double3 sumTrascprency = Double3.ZERO;
-        for (GeoPoint pointInTargetArea : geoPointInTheTargetArea) {
-            sumTrascprency.add(transparency(pointInTargetArea, lightSource,l,n));
+        List <Vector> lst = lightSource.getListL(gp.point);
+        for (Vector lAroundLight: lst) {
+            sumTrascprency = sumTrascprency.add(transparency(gp,lightSource,lAroundLight,n));
         }
+        return  sumTrascprency.reduce(lst.size());
 
-        return sumTrascprency.reduce(numOfRaysAtBeam);
     }
 
 
