@@ -17,9 +17,15 @@ public class PointLight extends Light implements LightSource{
     private double kQ = 0d;
     private double kL = 0d;
     private double kC = 1d;
-    private double radius = 0d;
+    private double radius =0;
 
     //constructor
+    public PointLight(Color intensity, Point position, double r ) {
+        super(intensity);
+        this.position = position;
+        radius = r;
+    }
+
     public PointLight(Color intensity, Point position) {
         super(intensity);
         this.position = position;
