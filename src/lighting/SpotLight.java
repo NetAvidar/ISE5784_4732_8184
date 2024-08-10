@@ -14,6 +14,11 @@ public class SpotLight extends PointLight{
     private Vector direction;
 
      //constructor
+    public SpotLight(Color intensity, Point position, Vector direction, double r) {
+        super(intensity, position,r);
+        this.direction = direction.normalize();
+    }
+
     public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
         this.direction = direction.normalize();

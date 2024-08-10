@@ -18,7 +18,7 @@ public class Scene {
 
     private boolean softShadow = false;
     private int numOfRaysAtBeam = 1;
-    private int radiusOfTargetArea = 0;
+
 
 
 
@@ -63,10 +63,6 @@ public class Scene {
         return this;
     }
 
-    public Scene setRadiusOfTargetArea(int radiusOfTargetArea) {
-        this.radiusOfTargetArea = radiusOfTargetArea;
-        return this;
-    }
 
     public boolean isSoftShadow() {
         return softShadow;
