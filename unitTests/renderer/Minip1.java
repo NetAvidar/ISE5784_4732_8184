@@ -55,11 +55,11 @@ public class Minip1 {
         scene.lights.add(new SpotLight(new Color(400, 240, 0),new Point(100,1000,500),new Vector(-30,-30,0),20).setKl(1E-5).setKq(1.5E-7));
 
         scene.lights.add(
-                new SpotLight(new Color(400, 240, 0),new Point(40,50,200),new Vector(0,-1,0),20)
+                new SpotLight(new Color(400, 240, 0),new Point(40,50,200),new Vector(0,-1,0),40)
                 .setKl(1E-5).setKq(1.5E-7));
 
         scene.lights.add(
-                new SpotLight(new Color(200, 200, 200),new Point(-150,200,200),new Vector(-40,-40,-20),13)
+                new SpotLight(new Color(200, 200, 200),new Point(-150,200,200),new Vector(-40,-40,-20),30)
                         .setKl(1E-5).setKq(1.5E-7));
 
         // Updated Camera setup
@@ -68,6 +68,9 @@ public class Minip1 {
                 .setDirection(new Vector(0, 1, 0).normalize(), new Vector(0, 0, -1))  // Pointing towards the scene with correct up vector
                 .setVpDistance(300)  // Adjusted to capture a larger view
                 .setVpSize(200, 200);  // Increased size for a broader view
+
+
+        scene.setSoftShadow(true);
 
         ImageWriter imagewriter=new ImageWriter("Spheres4",500,500);
         camera.setImageWriter(imagewriter)
