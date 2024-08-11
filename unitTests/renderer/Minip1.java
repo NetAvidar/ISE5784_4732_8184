@@ -93,7 +93,7 @@ public class Minip1 {
                 .setVpDistance(220)  // Adjusted to capture a larger view
                 .setVpSize(200, 200);  // Increased size for a broader view
 
-        ImageWriter imagewriter=new ImageWriter("minip1 with soft shadow",500,500);
+        ImageWriter imagewriter=new ImageWriter("Minip1 with soft shadow",500,500);
         camera.setImageWriter(imagewriter)
                 .setRayTracer(new SimpleRayTracer(scene))
                 .build()

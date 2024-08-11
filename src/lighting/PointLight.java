@@ -163,13 +163,12 @@ public class PointLight extends Light implements LightSource {
         for (double i = -radius; i < radius; i += stepSize) {
             for (double j = -radius; j < radius; j += stepSize) {
                 if (i != 0 && j != 0) {
-                    Point point = position.add(new Vector(i, 0.1d, j));
+                    Point point = position.add(new Vector(i, 0.1d, j)); //0.1 == DELTE
                     if (point.equals(position)) {
                         vectors.add(p.subtract(point).normalize());
                     } else {
                         try {
-                            if (point.subtract(position).dotProduct(point.subtract(position))
-                                    <= radius * radius) {
+                            if (point.subtract(position).dotProduct(point.subtract(position)) <= radius * radius) { //if the point inside the circle
                                 vectors.add(p.subtract(point).normalize());
                             }
                         } catch (Exception e) {
