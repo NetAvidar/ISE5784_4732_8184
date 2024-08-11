@@ -683,36 +683,49 @@ public class Minip1 {
         Scene scene = new Scene("Test scene")//
                 .setBackground(new Color(20,20,20));
 
-        Table t1 = new Table(new Point(40,-30,60),
+//        Table t1 = new Table(new Point(40,-30,60),
+//                50, 50, 50, new Color(120, 120, 0),
+//                30, 15, 0.5,0.5,40);
+
+        Table t1 = new Table(new Point(15, 100, 60), // Adjust y position here
                 50, 50, 50, new Color(120, 120, 0),
-                30, 15, 0.5,0.5,40);
+                30, 15, 0.5, 0.5, 40);
 
 
 
         scene.geometries.add(
                 t1,
-                new Plane(new Point(0, -200, 0), new Point(1, -200, 0), new Point(0, -200, 1))
+                new Plane(new Point(0, -600, 0), new Point(1, -600, 0), new Point(0, -600, 1))
                         .setEmission(new Color(240, 220, 200)),
                 new Plane(new Point(0, -180, 0), new Point(1, -180, 0), new Point(0, -180, 1))
                         .setEmission(new Color(100, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+
+                new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-160,300))
+                        .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-250,-150))
+                        .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                new Triangle (new Point (-150,-160,0),new Point (40,-250,-150),new Point(40,-160,300))
+                        .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                new Triangle (new Point (40,-250,-150),new Point (230,-160,0),new Point(40,-160,300))
+                        .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
 
                 //first floar-
                 new Sphere(60,new Point(-80,-100,0)).setEmission(new Color(0,30,200))  .setMaterial(new Material().setKd(0.3).setKs(0.5).setShininess(30)),//blue
                 new Sphere(60,new Point(160,-100,0)).setEmission(new Color(300,0,200)) .setMaterial(new Material().setKd(0.3).setKs(0.7).setShininess(30)),//pink
                 new Sphere(60,new Point(40,-100,0)).setEmission(new Color(200,0,30)) .setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),//red
 
-                new Sphere(60,new Point(-20,-100,60)).setEmission(new Color(200,200,200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setShininess(30)), //gray
-                new Sphere(60,new Point(100,-100,60)).setEmission(new Color(100,12,200)).setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),//purple
+                new Sphere(60,new Point(-20,-100,110)).setEmission(new Color(200,200,200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setShininess(30)), //gray
+                new Sphere(60,new Point(100,-100,110)).setEmission(new Color(100,12,200)).setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)),//purple
 
-                new Sphere(60,new Point(40,-100,120)).setEmission(new Color(0,160,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//green
+                new Sphere(60,new Point(40,-100,220)).setEmission(new Color(0,160,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//green
 
                 //second floar-
-                new Sphere(60,new Point(-20,0,30)).setEmission(new Color(255,165,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//yellow
-                new Sphere(60,new Point(100,0,30)).setEmission(new Color(255,170,180)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//pink
-                new Sphere(60,new Point(40,0,90)).setEmission(new Color(255,100,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//orange
+                new Sphere(60,new Point(-20,0,55)).setEmission(new Color(255,165,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//yellow
+                new Sphere(60,new Point(100,0,55)).setEmission(new Color(255,170,180)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//pink
+                new Sphere(60,new Point(40,0,165)).setEmission(new Color(255,100,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//orange
 
                 //third floar-
-                new Sphere(60,new Point(40,100,60)).setEmission(new Color(255,30,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60))//red
+                new Sphere(60,new Point(40,100,110)).setEmission(new Color(255,30,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60))//red
         );
 
         scene.geometries.add(new Sphere(10, new Point(30,-190,50)).
