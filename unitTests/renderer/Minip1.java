@@ -24,11 +24,11 @@ public class Minip1 {
 
                 new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-160,300))
                         .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
-                new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-250,110))
+                new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-300,110))
                         .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
-                new Triangle (new Point (-150,-160,0),new Point (40,-250,110),new Point(40,-160,300))
+                new Triangle (new Point (-150,-160,0),new Point (40,-300,110),new Point(40,-160,300))
                         .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
-                new Triangle (new Point (40,-250,110),new Point (230,-160,0),new Point(40,-160,300))
+                new Triangle (new Point (40,-300,110),new Point (230,-160,0),new Point(40,-160,300))
                         .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
 
                 //first floar-
