@@ -1,7 +1,10 @@
 package geometries;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 import primitives.Point;
@@ -96,6 +99,53 @@ public class Polygon extends Geometry {
 
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> intersection = this.plane.findGeoIntersections(ray);
+
+        // If there are no intersections with the plane of the triangle, return null (0 points intersection).
+        if (intersection == null) {
+            return null;
+        }
+
+        // Get the direction vector of the given ray and its starting point.
+        Vector v = ray.getDirection();
+        Point p0 = ray.getHead();
+
+        // Calculate the n-1 edge vectors of the triangle.
+        List<Vector> p0Vectors = new LinkedList<Vector>();
+        for (Point p : vertices) {
+            p0Vectors.add(p.subtract(ray.getHead()));
+        }
+
+        // Calculate the normalized cross products of the edge vectors.
+        List<Vector> crossVectors = new ArrayList<Vector>();
+        int count = 0;
+        int max = p0Vectors.size() - 1;
+        for (Vector vect : p0Vectors) {
+            if (count != max) {
+                crossVectors.add(vect.crossProduct(p0Vectors.get(count + 1)).normalize());
+            }
+            count++;
+        }
+        //add the  Vn v1 cross product to the crossVectors list and normalized it
+        crossVectors.add(p0Vectors.get(max).crossProduct(p0Vectors.get(0)).normalize());
+
+
+        // sum the number of positive or negative values of the dot product
+        count = 0;
+        for (Vector cross : crossVectors) {
+            double t = alignZero(v.dotProduct(cross));
+            if (t > 0)
+                count++;//count that the dot is positive
+            if (t < 0)
+                count--;//count that the dot is negative
+        }
+
+
+        // If the signs of the dot products are all positive or all negative, the ray intersects the triangle.
+        if (count == vertices.size() || count == -vertices.size()) {
+            // The ray intersects the polygon.
+            return  List.of(new GeoPoint(this,intersection.get(0).point));
+        }
         return null;
     }
 

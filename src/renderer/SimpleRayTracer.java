@@ -212,7 +212,7 @@ public class SimpleRayTracer extends RayTracerBase {
 
         //List <GeoPoint> geoPointInTheTargetArea = getCircle(...)
         Double3 sumTrascprency = Double3.ZERO;
-        List <Vector> lst = lightSource.getListL(gp.point);
+        List <Vector> lst = lightSource.getListL(gp.point,scene.getNumOfRaysAtBeam());
         for (Vector lAroundLight: lst) {
             sumTrascprency = sumTrascprency.add(transparency(gp,lightSource,lAroundLight,n));
         }

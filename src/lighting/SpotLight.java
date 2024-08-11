@@ -51,8 +51,8 @@ public class SpotLight extends PointLight{
     }
 
 
-    public List<Vector> getListL(Point p) {
-        return super.getListL(p);
+    public List<Vector> getListL(Point p,int numVectors) {
+        return super.getListL(p,numVectors);
     }
 
     }
