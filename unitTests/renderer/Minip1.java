@@ -107,13 +107,21 @@ public class Minip1 {
     @Test
     public void ourPicture() {
         Scene scene = new Scene("Test scene")//
-                .setBackground(new Color(20,20,20));
+                .setBackground(new Color(100,200,300));
 
-        scene.geometries.add(
-                new Plane(new Point(0, -600, 0), new Point(1, -600, 0), new Point(0, -600, 1))
-                       .setEmission(new Color(100, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+        //scene.geometries.add(
+              //  new Plane(new Point(0, -600, 0), new Point(1, -600, 0), new Point(0, -600, 1))
+                //       .setEmission(new Color(100, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                //   new Plane(new Point(-90, -600, -100), new Point(30, -600, -100), new Point(-90, -500, -100))
+                  //      .setEmission(new Color(90,90,90)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
 
-                new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-160,300))
+                scene.geometries.add(
+                        new Plane(new Point(0, -600, 0), new Point(1, -600, 0), new Point(0, -600, 1)) //light blue
+                                .setEmission(new Color(230, 230, 230)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                        new Plane(new Point(-300, -600, -100), new Point(-290, -600, -600), new Point(-300, -500, -100)) //light blue
+                                .setEmission(new Color(PINK)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+
+                        new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-160,300))
                         .setEmission(new Color(123, 63,0)).setMaterial(new Material().setKr(1).setKd(1).setKd(0.2).setShininess(10)),
                 new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-400,110))
                         .setEmission(new Color(123, 63,0)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
@@ -138,8 +146,8 @@ public class Minip1 {
                 new Sphere(60,new Point(40,0,165)).setEmission(new Color(255,100,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(60)),//orange
 
                 //third floar-
-                new Sphere(60,new Point(40,100,110)).setEmission(new Color(255,30,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(40))//red
-        );
+                new Sphere(60,new Point(40,100,110)).
+                        setEmission(new Color(255,30,0)).setMaterial(new Material().setKd(0.4).setKs(0.8).setShininess(40)));//red);
 
         scene.geometries.add(new Sphere(10, new Point(30,-190,50)).
                 setEmission(new Color(0,30,200))
@@ -148,21 +156,14 @@ public class Minip1 {
 
         scene.lights.add(
                 new DirectionalLight(new Color(50,50,50),new Vector(0.5,0.5,-0.5))); // from the top
-        scene.lights.add(new SpotLight(new Color(400, 240, 0),new Point(100,1000,500),new Vector(-30,-30,0),20).setKl(1E-5).setKq(1.5E-7));
-
-        scene.lights.add(
-                new SpotLight(new Color(400, 240, 0),new Point(40,50,200),new Vector(0,-1,0),20)
-                        .setKl(1E-5).setKq(1.5E-7));
-
-        scene.lights.add(
-                new SpotLight(new Color(200, 200, 200),new Point(-150,200,200),new Vector(-40,-40,-20),13)
-                        .setKl(1E-5).setKq(1.5E-7));
-        scene.lights.add(
-                new PointLight(new Color(WHITE),new Point(-180,-300,110),20));
+        scene.lights.add(new SpotLight(new Color(400, 240, 0),new Point(40,50,200),new Vector(0,-1,0),20).setKl(1E-5).setKq(1.5E-7)); //softShadow
+       // scene.lights.add(new SpotLight(new Color(200, 200, 200),new Point(-150,200,200),new Vector(-40,-40,-20),13).setKl(1E-5).setKq(1.5E-7));
+        scene.lights.add(new PointLight(new Color(180,180,180),new Point(-250,-300,250),20));
+   //     scene.lights.add(new SpotLight(new Color(WHITE),new Point(-600,200,-100),new Vector(100,-50,-50)));
 
 
 
-        scene.setSoftShadow(false); //todo:
+        scene.setSoftShadow(true).setNumOfRaysAtBeam(289); //todo:
 
         // Updated Camera setup
         Camera.Builder camera = Camera.getBuilder()
@@ -171,7 +172,7 @@ public class Minip1 {
                 .setVpDistance(220)  // Adjusted to capture a larger view
                 .setVpSize(200, 200);  // Increased size for a broader view
 
-        ImageWriter imagewriter=new ImageWriter("Spheres6",500,500);
+        ImageWriter imagewriter=new ImageWriter("final-soft shadow",1000,1000);
         camera.setImageWriter(imagewriter)
                 .setRayTracer(new SimpleRayTracer(scene))
                 .build()

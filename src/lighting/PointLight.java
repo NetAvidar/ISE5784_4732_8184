@@ -72,40 +72,70 @@ public class PointLight extends Light implements LightSource{
         return (p.subtract(this.getPosition())).normalize();
     }
 
-    public List<Vector> getListL(Point p) {
-        List<Vector> vectors = new LinkedList();
-        //grid of vectors around the light
-        for (double i = -radius; i < radius; i += radius / 10) {
-            for (double j = -radius; j < radius; j += radius / 10) {
+//    public List<Vector> getListL(Point p) {
+//        List<Vector> vectors = new LinkedList();
+//        //grid of vectors around the light
+//        for (double i = -radius; i < radius; i += radius / 10) {
+//            for (double j = -radius; j < radius; j += radius / 10) {
+//                if (i != 0 && j != 0) {
+//                    //create a point on the grid
+//                    Point point = position.add(new Vector(i, 0.1d, j));
+//                    if (point.equals(position)) {
+//                        //if the point is the same as the light position,
+//                        // add the vector from the point to the light
+//                        vectors.add(p.subtract(point).normalize());
+//                    } else {
+//                        try {
+//                            if (point.subtract(position).dotProduct(point.subtract(position))
+//                                    <= radius * radius) {
+//                                //if the point is in the radius of the light, add the vector from the point to the light
+//                                vectors.add(p.subtract(point).normalize());
+//                            }
+//                        } catch (Exception e) {
+//                            //if the point is in the radius of the light, add the vector from the point to the light
+//                            vectors.add(p.subtract(point).normalize());
+//                        }
+//
+//                    }
+//                }
+//
+//            }
+//
+//        }
+//        vectors.add(getL(p));
+//        return vectors;
+//
+//    }
+
+
+    public List<Vector> getListL(Point p, int numVectors) {
+        List<Vector> vectors = new LinkedList<>();
+        double stepSize = radius / Math.sqrt(numVectors); // Adjust step size based on desired number of vectors
+
+        for (double i = -radius; i < radius; i += stepSize) {
+            for (double j = -radius; j < radius; j += stepSize) {
                 if (i != 0 && j != 0) {
-                    //create a point on the grid
                     Point point = position.add(new Vector(i, 0.1d, j));
                     if (point.equals(position)) {
-                        //if the point is the same as the light position,
-                        // add the vector from the point to the light
                         vectors.add(p.subtract(point).normalize());
                     } else {
                         try {
                             if (point.subtract(position).dotProduct(point.subtract(position))
                                     <= radius * radius) {
-                                //if the point is in the radius of the light, add the vector from the point to the light
                                 vectors.add(p.subtract(point).normalize());
                             }
                         } catch (Exception e) {
-                            //if the point is in the radius of the light, add the vector from the point to the light
                             vectors.add(p.subtract(point).normalize());
                         }
-
                     }
                 }
-
             }
-
         }
+
         vectors.add(getL(p));
         return vectors;
-
     }
+
 
     // for random number of rays to create for soft shadows
     private static final Random RND = new Random();

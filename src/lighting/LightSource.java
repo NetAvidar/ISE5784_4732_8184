@@ -11,7 +11,7 @@ public interface LightSource {
     public Color getIntensity(Point p);
     public Vector getL (Point p);
     public double getDistance(Point p);
-    public List<Vector> getListL(Point p);
+    public List<Vector> getListL(Point p, int numVectors);
 
  //   public List <Vector> getCircle(Point p, double r, int amount);
 }

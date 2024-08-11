@@ -21,7 +21,6 @@ public class Scene {
 
 
 
-
     //constractors
     public Scene(String s){
         this.name =s;
@@ -66,5 +65,9 @@ public class Scene {
 
     public boolean isSoftShadow() {
         return softShadow;
+    }
+
+    public int getNumOfRaysAtBeam() {
+        return numOfRaysAtBeam;
     }
 }
