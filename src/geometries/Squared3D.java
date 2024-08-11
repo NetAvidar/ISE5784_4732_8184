@@ -2,10 +2,11 @@ package geometries;
 
 import primitives.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 import primitives.*;
 
-public class Squared3D {
+public class Squared3D extends Intersectable {
 
     List<Polygon> geometryList;
 
@@ -18,14 +19,14 @@ public class Squared3D {
      * @param height   The height of the Squared3D.
      * @param color    The color of the Squared3D.
      */
-    public Squared3D(Point position, int depth, int width, int height, Color color,double kd,double ks,int shines) {
+    public Squared3D(Point position, int depth, int width, int height, Color color, double kd, double ks, int shines) {
 
         // Initialize the walls
 
         // Front wall
         Polygon front = (Polygon) new Polygon(position,
                 new Point(position.getXyz().getD1() + width, position.getXyz().getD2(), position.getXyz().getD3()),
-                new Point(position.getXyz().getD1() + width, position.getXyz().getD1(), position.getXyz().getD3()+ height),
+                new Point(position.getXyz().getD1() + width, position.getXyz().getD1(), position.getXyz().getD3() + height),
                 new Point(position.getXyz().getD1(), position.getXyz().getD1(), position.getXyz().getD3() + height))
                 .setEmission(color).setMaterial(new Material().setKd(kd).setKs(ks).setShininess(shines));
 
@@ -69,5 +70,20 @@ public class Squared3D {
 
     public List<Polygon> getGeometryList() {
         return geometryList;
+    }
+
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> allIntersetions = new ArrayList<>();
+        List<GeoPoint> onePolIntersections = new ArrayList<>();
+
+        for (Polygon pol : geometryList) {
+            onePolIntersections = pol.findGeoIntersections(ray);
+            if(onePolIntersections!=null) {
+                for (GeoPoint gp : onePolIntersections) {
+                    allIntersetions.add(gp);
+                }
+            }
+        }
+        return allIntersetions;
     }
 }
