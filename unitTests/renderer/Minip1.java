@@ -19,17 +19,17 @@ public class Minip1 {
                 .setBackground(new Color(20,20,20));
 
         scene.geometries.add(
-//                new Plane(new Point(0, -180, 0), new Point(1, -180, 0), new Point(0, -180, 1))
-//                        .setEmission(new Color(100, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                new Plane(new Point(0, -600, 0), new Point(1, -600, 0), new Point(0, -600, 1))
+                        .setEmission(new Color(100, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
 
                 new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-160,300))
-                        .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
-                new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-300,110))
-                        .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
-                new Triangle (new Point (-150,-160,0),new Point (40,-300,110),new Point(40,-160,300))
-                        .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
-                new Triangle (new Point (40,-300,110),new Point (230,-160,0),new Point(40,-160,300))
-                        .setEmission(new Color(255, 200, 300)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                        .setEmission(new Color(123, 63, 0)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                new Triangle (new Point (-150,-160,0),new Point (230,-160,0),new Point(40,-400,110))
+                        .setEmission(new Color(123, 63, 0)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                new Triangle (new Point (-150,-160,0),new Point (40,-400,110),new Point(40,-160,300))
+                        .setEmission(new Color(123, 63, 0)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
+                new Triangle (new Point (40,-400,110),new Point (230,-160,0),new Point(40,-160,300))
+                        .setEmission(new Color(123, 63, 0)).setMaterial(new Material().setKd(0.3).setKs(0.8).setShininess(30)),
 
                 //first floar-
                 new Sphere(60,new Point(-80,-100,0)).setEmission(new Color(0,30,200))  .setMaterial(new Material().setKd(0.3).setKs(0.5).setShininess(30)),//blue
@@ -73,7 +73,7 @@ public class Minip1 {
         Camera.Builder camera = Camera.getBuilder()
                 .setLocation(new Point(0, 0, 1000))  // Position the camera further back
                 .setDirection(new Vector(0, 1, 0).normalize(), new Vector(0, 0, -1))  // Pointing towards the scene with correct up vector
-                .setVpDistance(300)  // Adjusted to capture a larger view
+                .setVpDistance(220)  // Adjusted to capture a larger view
                 .setVpSize(200, 200);  // Increased size for a broader view
 
         ImageWriter imagewriter=new ImageWriter("Spheres6",500,500);
